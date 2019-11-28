@@ -6,7 +6,7 @@ from pygame.locals import *
 
 pygame.init()
 tileSize = 35
-levelSize = 35  #!!!!!!!!!! MAX SIZE 35 on A32 PCs !!!!!!! Only square maps render well.
+levelSize = 80  #!!!!!!!!!! MAX SIZE 35 on A32 PCs !!!!!!! Only square maps render well.
 
 # folder paths and images for the map
 main_dir = os.path.split(os.path.abspath(__file__))[0]
@@ -52,7 +52,7 @@ d.generateCorridors()
 d.connectAllRooms(30)
 d.pruneDeadends(20)
 d.placeWalls()
-print(dungeonGenerator.dungeonRoom)
+print(d.grid)
 #place the sprite tiles according to the dungeon matrix
 for x, y, tile in d:
     if tile == dungeonGenerator.EMPTY:
