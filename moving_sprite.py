@@ -1,5 +1,6 @@
 import pygame
 import random
+import testingMaps
  
  
 SIZE = WIDTH, HEIGHT = 1200, 800 #the width and height of our screen
