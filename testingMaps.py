@@ -45,7 +45,7 @@ facingWallRect = pygame.Rect(0, 0, tileSize, tileSize)
 facingWallTile = spriteSheet.subsurface(facingWallRect)
 
 # no box currently - make them in main game loop as sprites
-boxRect = pygame.Rect(tileSize*4, 0, tileSize, tileSize)
+boxRect = pygame.Rect(tileSize*9, 0, tileSize, tileSize)
 boxTile = spriteSheet.subsurface(boxRect)  
 
 #doors are just grass openings 
