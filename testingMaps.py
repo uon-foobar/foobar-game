@@ -63,7 +63,6 @@ d.generateCorridors()
 d.connectAllRooms(30)
 d.pruneDeadends(20)
 d.placeWalls()
-print(d.grid)
 
 # the game intro
 def gameIntro():
@@ -98,7 +97,7 @@ def gameIntro():
         introScreen.fill([50,50,50])
         blit_text(introScreen, introString, (50, 50), font, [230,230,230])
         pygame.display.flip()
-
+'''
 gameIntro()
 #place the sprite tiles according to the dungeon matrix
 for x, y, tile in d:
@@ -142,3 +141,4 @@ while True:
 
     pygame.display.flip()
 
+'''

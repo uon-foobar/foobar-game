@@ -1,4 +1,3 @@
-
 import pygame as pg
 import sys
 from os import path
@@ -19,7 +18,8 @@ class Game:
     def load_data(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
-        self.map = Map(path.join(game_folder, 'map3.txt'))
+        #self.map = Map(path.join(game_folder, 'map3.txt'))
+        self.map = testingMaps.d.grid
         self.player_img = pg.image.load(
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
 
@@ -77,7 +77,7 @@ class Game:
                     self.quit()
 
     def show_start_screen(self):
-        pass
+        testingMaps.gameIntro()
 
     def show_go_screen(self):
         pass
