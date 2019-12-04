@@ -78,7 +78,18 @@ class Mob(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.mob_img
+        if self.TYPE == 1:
+            print(1)
+            self.image = game.mob_img
+            print(self.image)
+        if self.TYPE == 2:
+            print(2)
+            self.image = game.mob_img2
+            print(self.image)
+        if self.TYPE == 3:
+            print(3)
+            self.image = game.mob_img3
+            print(self.image)
         self.rect = self.image.get_rect()
         self.hit_rect = MOB_HIT_RECT.copy()
         self.hit_rect.center = self.rect.center
@@ -87,14 +98,19 @@ class Mob(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
-        self.health = MOB_HEALTH
+        self.health = self.HEALTH
 
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
-        self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        if self.TYPE == 1:
+            self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        if self.TYPE == 2:
+            self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
+        if self.TYPE == 3:
+            self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
         # self.rect = self.image.get_rect()
         self.rect.center = self.pos
-        self.acc = vec(MOB_SPEED, 0).rotate(-self.rot)
+        self.acc = vec(self.SPEED, 0).rotate(-self.rot)
         self.acc += self.vel * -1
         self.vel += self.acc * self.game.dt
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
@@ -113,101 +129,26 @@ class Mob(pg.sprite.Sprite):
             col = YELLOW
         else:
             col = RED
-        width = int(self.rect.width * self.health / MOB_HEALTH)
+        width = int(self.rect.width * self.health / self.HEALTH)
         self.health_bar = pg.Rect(0, 0, width, 7)
-        if self.health < MOB_HEALTH:
+        if self.health < self.HEALTH:
             pg.draw.rect(self.image, col, self.health_bar)
 
-class BigZombie(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.mobs
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.mob_img2
-        self.rect = self.image.get_rect()
-        self.hit_rect = MOB_HIT_RECT.copy()
-        self.hit_rect.center = self.rect.center
-        self.pos = vec(x, y)
-        self.vel = vec(0, 0)
-        self.acc = vec(0, 0)
-        self.rect.center = self.pos
-        self.rot = 0
-        self.health = MOB_HEALTH2
+class Zombie(Mob):
+    TYPE = 1
+    HEALTH = MOB_HEALTH
+    SPEED = MOB_SPEED
+    
 
-    def update(self):
-        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
-        self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
-        # self.rect = self.image.get_rect()
-        self.rect.center = self.pos
-        self.acc = vec(MOB_SPEED2, 0).rotate(-self.rot)
-        self.acc += self.vel * -1
-        self.vel += self.acc * self.game.dt
-        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
-        self.hit_rect.centerx = self.pos.x
-        collide_with_walls(self, self.game.walls, 'x')
-        self.hit_rect.centery = self.pos.y
-        collide_with_walls(self, self.game.walls, 'y')
-        self.rect.center = self.hit_rect.center
-        if self.health <= 0:
-            self.kill()
-
-    def draw_health(self):
-        if self.health > 60:
-            col = GREEN
-        elif self.health > 30:
-            col = YELLOW
-        else:
-            col = RED
-        width = int(self.rect.width * self.health / MOB_HEALTH2)
-        self.health_bar = pg.Rect(0, 0, width, 7)
-        if self.health < MOB_HEALTH2:
-            pg.draw.rect(self.image, col, self.health_bar)
-
-class Boss(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.mobs
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.mob_img3
-        self.rect = self.image.get_rect()
-        self.hit_rect = MOB_HIT_RECT.copy()
-        self.hit_rect.center = self.rect.center
-        self.pos = vec(x, y)
-        self.vel = vec(0, 0)
-        self.acc = vec(0, 0)
-        self.rect.center = self.pos
-        self.rot = 0
-        self.health = MOB_HEALTH3
-
-    def update(self):
-        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
-        self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
-        # self.rect = self.image.get_rect()
-        self.rect.center = self.pos
-        self.acc = vec(MOB_SPEED3, 0).rotate(-self.rot)
-        self.acc += self.vel * -1
-        self.vel += self.acc * self.game.dt
-        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
-        self.hit_rect.centerx = self.pos.x
-        collide_with_walls(self, self.game.walls, 'x')
-        self.hit_rect.centery = self.pos.y
-        collide_with_walls(self, self.game.walls, 'y')
-        self.rect.center = self.hit_rect.center
-        if self.health <= 0:
-            self.kill()
-
-    def draw_health(self):
-        if self.health > 60:
-            col = GREEN
-        elif self.health > 30:
-            col = YELLOW
-        else:
-            col = RED
-        width = int(self.rect.width * self.health / MOB_HEALTH3)
-        self.health_bar = pg.Rect(0, 0, width, 7)
-        if self.health < MOB_HEALTH3:
-            pg.draw.rect(self.image, col, self.health_bar)
-
+class BigZombie(Mob):
+    TYPE = 2
+    HEALTH = MOB_HEALTH2
+    SPEED = MOB_SPEED2
+    
+class Boss(Mob):
+    TYPE = 3
+    HEALTH = MOB_HEALTH3
+    SPEED = MOB_SPEED3
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):

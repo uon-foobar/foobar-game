@@ -47,6 +47,8 @@ class Game:
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
         self.bullet_img = pg.image.load(
             path.join(img_folder, BULLET_IMG)).convert_alpha()
+        self.bullet_img2 = pg.image.load(
+            path.join(img_folder, BULLET_IMG2)).convert_alpha()
         self.mob_img = pg.image.load(
             path.join(img_folder, MOB_IMG)).convert_alpha()
         self.mob_img2 = pg.image.load(
@@ -75,7 +77,7 @@ class Game:
             if tile_object.name == 'player':
                 self.player = Player(self, tile_object.x, tile_object.y)
             if tile_object.name == 'zombie':
-                Mob(self, tile_object.x, tile_object.y)
+                Zombie(self, tile_object.x, tile_object.y)
             if tile_object.name == 'big_zombie':
                 BigZombie(self, tile_object.x, tile_object.y)
             if tile_object.name == 'boss':
