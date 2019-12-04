@@ -39,11 +39,8 @@ class Game:
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
         map_folder = path.join(game_folder, 'maps')
-        # Now we used TiledMap
-        self.map = TiledMap(path.join(map_folder, 'level2.tmx'))
-        # make_map function from tilemap.py
+        self.map = TiledMap(path.join(map_folder, 'level1.tmx'))
         self.map_img = self.map.make_map()
-        # to locate it on the screen for where to draw it
         self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
@@ -69,15 +66,12 @@ class Game:
         #             Mob(self, col, row)
         #         if tile == 'P':
         #             self.player = Player(self, col, row)
-
-        # using object names now , looping through each one, properties of tiles are a dictionary
         for tile_object in self.map.tmxdata.objects:
             if tile_object.name == 'player':
                 self.player = Player(self, tile_object.x, tile_object.y)
             if tile_object.name == 'zombie':
                 Mob(self, tile_object.x, tile_object.y)
             if tile_object.name == 'wall':
-                # tile properties
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
         self.camera = Camera(self.map.width, self.map.height)
@@ -125,7 +119,6 @@ class Game:
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         # self.screen.fill(BGCOLOR)
-        # blit the map on sceen, location to the camera, using the rect cam now instead the sprite one
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         # self.draw_grid()
         for sprite in self.all_sprites:
