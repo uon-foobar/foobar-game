@@ -44,8 +44,14 @@ BULLET_DAMAGE = 10
 
 # Mob settings
 MOB_IMG = 'zombie1_hold.png'
+MOB_IMG2 = 'zombie1_hold2.png'
+MOB_IMG3 = 'boss.png'
 MOB_SPEED = 150
+MOB_SPEED2 = 100
+MOB_SPEED3 = 300
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 MOB_HEALTH = 100
+MOB_HEALTH2 = 200
+MOB_HEALTH3 = 300
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 20

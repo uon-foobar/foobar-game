@@ -1,6 +1,7 @@
 
 import pygame as pg
 import sys
+import random
 from os import path
 from settings import *
 from sprites import *
@@ -39,7 +40,7 @@ class Game:
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
         map_folder = path.join(game_folder, 'maps')
-        self.map = TiledMap(path.join(map_folder, 'level1.tmx'))
+        self.map = TiledMap(path.join(map_folder, 'level2.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(
@@ -48,6 +49,10 @@ class Game:
             path.join(img_folder, BULLET_IMG)).convert_alpha()
         self.mob_img = pg.image.load(
             path.join(img_folder, MOB_IMG)).convert_alpha()
+        self.mob_img2 = pg.image.load(
+            path.join(img_folder, MOB_IMG2)).convert_alpha()
+        self.mob_img3 = pg.image.load(
+            path.join(img_folder, MOB_IMG3)).convert_alpha()
         self.wall_img = pg.image.load(
             path.join(img_folder, WALL_IMG)).convert_alpha()
         self.wall_img = pg.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
@@ -71,6 +76,10 @@ class Game:
                 self.player = Player(self, tile_object.x, tile_object.y)
             if tile_object.name == 'zombie':
                 Mob(self, tile_object.x, tile_object.y)
+            if tile_object.name == 'big_zombie':
+                BigZombie(self, tile_object.x, tile_object.y)
+            if tile_object.name == 'boss':
+                Boss(self, tile_object.x, tile_object.y)
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
@@ -123,6 +132,10 @@ class Game:
         # self.draw_grid()
         for sprite in self.all_sprites:
             if isinstance(sprite, Mob):
+                sprite.draw_health()
+            if isinstance(sprite, BigZombie):
+                sprite.draw_health()
+            if isinstance(sprite, Boss):
                 sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
             if self.draw_debug:
