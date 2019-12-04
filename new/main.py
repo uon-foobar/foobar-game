@@ -166,15 +166,46 @@ class Game:
                     self.draw_debug = not self.draw_debug
 
     def show_start_screen(self):
-        pass
+        def blit_text(surface, text, pos, font, color=pg.Color('black')):
+            words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
+            space = font.size(' ')[0]  # The width of a space.
+            max_width, max_height = surface.get_size()
+            x, y = pos
+            for line in words:
+                for word in line:
+                    word_surface = font.render(word, 0, color)
+                    word_width, word_height = word_surface.get_size()
+                    if x + word_width >= max_width:
+                        x = pos[0]  # Reset the x.
+                        y += word_height  # Start on new row.
+                    surface.blit(word_surface, (x, y))
+                    x += word_width + space
+                x = pos[0]  # Reset the x.
+                y += word_height  # Start on new row.
+
+
+        introString = "                      Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
+
+        introScreen = pg.display.set_mode((1024, 800))
+        while True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    quit()
+                elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
+                    #intro = False
+                    return
+            font = pg.font.SysFont("Courier New", 20)
+            introScreen.fill([50,50,50])
+            blit_text(introScreen, introString, (50, 50), font, [230,230,230])
+            pg.display.flip()
 
     def show_go_screen(self):
         pass
 
 
 # create the game object
+g = Game().show_start_screen()
 g = Game()
-g.show_start_screen()
 while True:
     g.new()
     g.run()

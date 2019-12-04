@@ -79,17 +79,11 @@ class Mob(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         if self.TYPE == 1:
-            print(1)
             self.image = game.mob_img
-            print(self.image)
         if self.TYPE == 2:
-            print(2)
             self.image = game.mob_img2
-            print(self.image)
         if self.TYPE == 3:
-            print(3)
             self.image = game.mob_img3
-            print(self.image)
         self.rect = self.image.get_rect()
         self.hit_rect = MOB_HIT_RECT.copy()
         self.hit_rect.center = self.rect.center
@@ -137,8 +131,7 @@ class Mob(pg.sprite.Sprite):
 class Zombie(Mob):
     TYPE = 1
     HEALTH = MOB_HEALTH
-    SPEED = MOB_SPEED
-    
+    SPEED = MOB_SPEED  
 
 class BigZombie(Mob):
     TYPE = 2
