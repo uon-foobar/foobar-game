@@ -1,4 +1,5 @@
 import pygame as pg
+import pytmx
 from settings import *
 
 
@@ -38,12 +39,12 @@ class TiledMap:
             # going through all visible layers in our map
             if isinstance(layer, pytmx.TiledTileLayer):
                 # now getting each x y and gid in the tiled tile layer
-                for x, y, gid in layer:
+                # draw it at location() and looping for each in order of the layers, so ground layer is drawn first and so on
+                for x, y, gid, in layer:
                     tile = ti(gid)
                     if tile:
-                        # draw it at location() and loopin for each in order of the layers, so ground layer is drawn first and so on
-                        surface.blit(
-                            tile, (x * self.tmxdata.tilewidth, y * self.tmxdata.tileheight))
+                        surface.blit(tile, (x * self.tmxdata.tilewidth,
+                                            y * self.tmxdata.tileheight))
 
     def make_map(self):
         # draw surface however big the tilemap is
@@ -57,8 +58,8 @@ class Camera:
         self.camera = pg.Rect(0, 0, width, height)
         self.width = width
         self.height = height
-
 # Two options to move the camera now sprite or rect
+
     def apply(self, entity):
         return entity.rect.move(self.camera.topleft)
 
