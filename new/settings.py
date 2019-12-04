@@ -35,6 +35,7 @@ BARREL_OFFSET = vec(30, 10)
 
 # Gun settings
 BULLET_IMG = 'bullet.png'
+BULLET_IMG2 = 'bullet2.png'
 BULLET_SPEED = 500
 BULLET_LIFETIME = 1000
 BULLET_RATE = 150
