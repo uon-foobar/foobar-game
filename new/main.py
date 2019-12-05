@@ -91,8 +91,6 @@ class Game:
         #         if tile == 'P':
         #             self.player = Player(self, col, row)
         for tile_object in self.map.tmxdata.objects:
-            if tile_object.name == 'player':
-                self.player = Player(self, tile_object.x, tile_object.y)
             if tile_object.name == 'zombie':
                 Zombie(self, tile_object.x, tile_object.y)
             if tile_object.name == 'big_zombie':
@@ -107,13 +105,27 @@ class Game:
                 
             if tile_object.name == 'coins':
                 coins(self, tile_object.x, tile_object.y)
+                
+            if tile_object.name == 'player':
+                self.player = Player(self, tile_object.x, tile_object.y)
+            
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
 
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
+        
+        pg.mixer.music.load('audio/game_song1.mp3')
+        pg.mixer.music.play(-1)
+        
+
+        
+        
         while self.playing:
+            
+        
+            
             self.dt = self.clock.tick(FPS) / 1000.0  # fix for Python 2.x
             self.events()
             self.update()
@@ -137,6 +149,8 @@ class Game:
         # mobs hit player
         hits = pg.sprite.spritecollide(
             self.player, self.mobs, False, collide_hit_rect)
+        
+        
         for hit in hits:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
@@ -151,9 +165,15 @@ class Game:
             hit.vel = vec(0, 0)
         
         if pg.sprite.spritecollide(self.player, self.coins, True, collided = None):
-            pg.mixer.music.load('audio/coin_collect.wav')
-            pg.mixer.music.play(0)
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
             self.player.coin_count += 1
+            
+        if pg.sprite.spritecollide(self.player, self.mobs, False, collided = None):
+            
+            
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/punch.wav'))
+            #pg.mixer.music.load('audio/slap.mp3')
+            #pg.mixer.music.play(0)
             
         
 
