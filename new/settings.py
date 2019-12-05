@@ -18,6 +18,7 @@ HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITLE = "Tilemap Demo"
 BGCOLOR = BROWN
+NEXTLEVELCOINS = 1
 
 TILESIZE = 64
 GRIDWIDTH = WIDTH / TILESIZE
@@ -29,7 +30,8 @@ WALL_IMG = 'tileGreen_39.png'
 INTRO = "                       Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
 NEWLEVEL = "                    PRESS ENTER TO CONTINUE TO THE NEXT LEVEL"
 DEAD =  "                       OH NO YOU DIED !!!!!!!!!!!!!!!! \n\n\n                      If you want to START AGAIN: \n\n                                 <-- ENTER --> \n\n\n\n                      If you want to QUIT: \n\n                                  <-- ESC -->"
-
+INFOPOS = (50,50)
+LEVELPOS = (WIDTH/2,HEIGHT/2)
 
 # Player settings
 PLAYER_HEALTH = 100
