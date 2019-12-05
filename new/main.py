@@ -169,9 +169,12 @@ class Game:
         if self.player.coin_count == 3:
             self.show_screen(NEWLEVEL)
             self.playing = False
+<<<<<<< HEAD
             
         if pg.sprite.spritecollide(self.player, self.mobs, False, collided = None):
             pg.mixer.Sound.play(pg.mixer.Sound('audio/punch.wav'))
+=======
+>>>>>>> master
         
 
     def draw_grid(self):
