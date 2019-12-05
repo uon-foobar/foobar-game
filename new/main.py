@@ -119,6 +119,8 @@ class Game:
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
+        pg.mixer.music.load('audio/game_song1.mp3')
+        pg.mixer.music.play(-1)
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000.0  # fix for Python 2.x
             self.events()
@@ -161,13 +163,15 @@ class Game:
             hit.vel = vec(0, 0)
         
         if pg.sprite.spritecollide(self.player, self.coins, True, collided = None):
-            pg.mixer.music.load('audio/coin_collect.wav')
-            pg.mixer.music.play(0)
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
             self.player.coin_count += 1
         
         if self.player.coin_count == 3:
             self.show_screen(NEWLEVEL)
             self.playing = False
+            
+        if pg.sprite.spritecollide(self.player, self.mobs, False, collided = None):
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/punch.wav'))
         
 
     def draw_grid(self):

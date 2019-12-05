@@ -56,8 +56,7 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
-            pg.mixer.music.load('audio/shooting_1.ogg')
-            pg.mixer.music.play(0)
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/shooting_1.ogg'))
             now = pg.time.get_ticks()
             if now - self.last_shot > BULLET_RATE:
                 self.last_shot = now
@@ -80,6 +79,7 @@ class Player(pg.sprite.Sprite):
         self.rect.center = self.hit_rect.center
 
     def add_health(self, amount):
+        pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
