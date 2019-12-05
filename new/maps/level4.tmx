@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="92">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="95">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
@@ -124,7 +124,7 @@
   <object id="18" name="wall" x="1152" y="1216" width="64" height="192"/>
   <object id="19" name="wall" x="0" y="1472" width="64" height="448"/>
   <object id="20" name="wall" x="-64" y="0" width="64" height="1920"/>
-  <object id="21" name="wall" x="0" y="1920" width="3200" height="64"/>
+  <object id="21" name="wall" x="0" y="1916" width="3200" height="64"/>
   <object id="22" name="wall" x="0" y="-64" width="3200" height="64"/>
   <object id="23" name="wall" x="3200" y="0" width="64" height="1920"/>
   <object id="24" name="wall" x="640" y="896" width="192" height="64"/>
@@ -188,5 +188,7 @@
   <object id="89" name="health" x="2612" y="1754" width="48" height="44"/>
   <object id="90" x="-305.333" y="1057.33"/>
   <object id="91" x="3556" y="1666.67"/>
+  <object id="92" name="wall" x="0" y="192" width="64" height="896"/>
+  <object id="93" x="-348" y="1653.33"/>
  </objectgroup>
 </map>

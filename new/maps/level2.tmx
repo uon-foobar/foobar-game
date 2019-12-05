@@ -172,8 +172,8 @@
   <object id="81" name="coins" x="77.3333" y="293.333" width="45.3333" height="52"/>
   <object id="90" name="wall" x="0" y="-64" width="2752" height="64"/>
   <object id="91" name="wall" x="-192" y="0" width="192" height="1920"/>
-  <object id="92" name="wall" x="0" y="1920" width="2880" height="64"/>
-  <object id="93" name="wall" x="2880" y="1920" width="320" height="64"/>
+  <object id="92" name="wall" x="2.66667" y="1913.33" width="2880" height="64"/>
+  <object id="93" name="wall" x="2884" y="1914.67" width="320" height="64"/>
   <object id="94" name="wall" x="2752" y="-64" width="512" height="64"/>
   <object id="95" name="wall" x="3200" y="0" width="64" height="1920"/>
   <object id="96" x="-208" y="2012"/>
