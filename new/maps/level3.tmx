@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="181">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="190">
  <tileset firstgid="1" name="kenney" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
@@ -131,36 +131,24 @@
   <object id="145" name="zombie" x="2148.25" y="696" width="29.5" height="27"/>
   <object id="146" name="coins" x="1090.67" y="914.667" width="38.6667" height="32"/>
   <object id="149" name="coins" x="186.167" y="550.5" width="38.6667" height="32"/>
-  <object id="150" name="coins" x="1787.17" y="529" width="38.6667" height="32"/>
   <object id="151" name="coins" x="2629.67" y="411.5" width="38.6667" height="32"/>
   <object id="152" name="coins" x="2179.17" y="941.5" width="38.6667" height="32"/>
-  <object id="153" name="coins" x="3138.17" y="27.5" width="38.6667" height="32"/>
-  <object id="154" name="coins" x="22.6666" y="49" width="38.6667" height="32"/>
-  <object id="155" name="coins" x="88.6666" y="90.5" width="38.6667" height="32"/>
-  <object id="156" name="coins" x="29.1666" y="157" width="38.6667" height="32"/>
-  <object id="157" name="coins" x="98.6666" y="210.5" width="38.6667" height="32"/>
-  <object id="158" name="coins" x="276.667" y="1877" width="38.6667" height="32"/>
-  <object id="159" name="coins" x="219.167" y="1878.5" width="38.6667" height="32"/>
-  <object id="160" name="coins" x="330.667" y="1878" width="38.6667" height="32"/>
-  <object id="161" name="coins" x="386.167" y="1882.5" width="38.6667" height="32"/>
+  <object id="157" name="coins" x="138.667" y="87.8333" width="38.6667" height="32"/>
   <object id="162" name="coins" x="715.167" y="1748" width="38.6667" height="32"/>
-  <object id="163" name="coins" x="787.167" y="1748.5" width="38.6667" height="32"/>
-  <object id="164" name="coins" x="785.667" y="1811" width="38.6667" height="32"/>
   <object id="165" name="coins" x="717.167" y="1815.5" width="38.6667" height="32"/>
   <object id="166" name="coins" x="309.167" y="1223.5" width="38.6667" height="32"/>
   <object id="167" name="coins" x="312.667" y="1154.5" width="38.6667" height="32"/>
-  <object id="168" name="coins" x="312.167" y="1091.5" width="38.6667" height="32"/>
   <object id="169" name="big_zombie" x="2583.75" y="116.5" width="29.5" height="27"/>
   <object id="170" name="big_zombie" x="2999.25" y="443" width="29.5" height="27"/>
   <object id="171" name="boss" x="540.25" y="93.5" width="29.5" height="27"/>
-  <object id="172" name="coins" x="177.667" y="201" width="38.6667" height="32"/>
-  <object id="173" name="coins" x="147.167" y="130.5" width="38.6667" height="32"/>
-  <object id="174" name="coins" x="240.667" y="162.5" width="38.6667" height="32"/>
-  <object id="175" name="coins" x="204.167" y="88.5" width="38.6667" height="32"/>
-  <object id="176" name="coins" x="108.667" y="28" width="38.6667" height="32"/>
-  <object id="177" name="coins" x="171.167" y="23" width="38.6667" height="32"/>
-  <object id="178" name="coins" x="273.667" y="71" width="38.6667" height="32"/>
-  <object id="179" name="coins" x="235.667" y="27" width="38.6667" height="32"/>
-  <object id="180" name="coins" x="303.667" y="184.5" width="38.6667" height="32"/>
+  <object id="172" name="coins" x="139" y="170.333" width="38.6667" height="32"/>
+  <object id="181" name="health" x="1925.33" y="1440" width="69.3333" height="58.6667"/>
+  <object id="182" name="health" x="653.333" y="493.333" width="88" height="76"/>
+  <object id="183" name="big_zombie" x="1569.33" y="86.6667" width="50.6667" height="46.6667"/>
+  <object id="184" name="zombie" x="1826.67" y="1702.67" width="48" height="48"/>
+  <object id="185" name="zombie" x="1926.67" y="1814.67" width="56" height="49.3333"/>
+  <object id="187" name="boss" x="2456" y="550.667" width="56" height="46.6667"/>
+  <object id="188" x="3385.33" y="930.667"/>
+  <object id="189" x="-194.667" y="510.667"/>
  </objectgroup>
 </map>
