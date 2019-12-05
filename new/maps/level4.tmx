@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="95">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="101">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
@@ -172,8 +172,6 @@
   <object id="73" x="1244" y="2041.33"/>
   <object id="74" name="boss" x="389.333" y="1524" width="56" height="50.6667"/>
   <object id="75" name="big_zombie" x="290.667" y="290.667" width="70.6667" height="64"/>
-  <object id="76" name="health" x="147" y="223" width="63" height="61"/>
-  <object id="77" name="health" x="2811" y="598" width="68" height="70"/>
   <object id="78" name="coins" x="391" y="71" width="45" height="37"/>
   <object id="79" name="boss" x="2947" y="557" width="50" height="44"/>
   <object id="80" name="boss" x="2850" y="774" width="60" height="58"/>
@@ -184,11 +182,14 @@
   <object id="85" name="zombie" x="870" y="227" width="54" height="42"/>
   <object id="86" name="big_zombie" x="136" y="1117" width="55" height="42"/>
   <object id="87" name="big_zombie" x="1456" y="1780" width="50" height="47"/>
-  <object id="88" name="health" x="860" y="1524" width="45" height="48"/>
-  <object id="89" name="health" x="2612" y="1754" width="48" height="44"/>
   <object id="90" x="-305.333" y="1057.33"/>
   <object id="91" x="3556" y="1666.67"/>
   <object id="92" name="wall" x="0" y="192" width="64" height="896"/>
   <object id="93" x="-348" y="1653.33"/>
+  <object id="95" name="health" x="156.667" y="229.5" width="63" height="61"/>
+  <object id="97" name="health" x="334.667" y="1765.33" width="50.6667" height="57.3333"/>
+  <object id="98" name="health" x="2570.67" y="1257.33" width="46.6667" height="50.6667"/>
+  <object id="99" name="health" x="2794.67" y="268" width="40" height="46.6667"/>
+  <object id="100" x="-437.333" y="272"/>
  </objectgroup>
 </map>

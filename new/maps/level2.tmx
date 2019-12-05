@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="117">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="119">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
@@ -179,8 +179,6 @@
   <object id="96" x="-208" y="2012"/>
   <object id="97" name="zombie" x="2518" y="824" width="50" height="60"/>
   <object id="98" name="zombie" x="945" y="614" width="50" height="50"/>
-  <object id="99" name="health" x="1110" y="667" width="56" height="56"/>
-  <object id="100" name="health" x="2206" y="775" width="66" height="62"/>
   <object id="101" name="coins" x="2881" y="149" width="30" height="23"/>
   <object id="102" name="coins" x="2620" y="433" width="33" height="39"/>
   <object id="103" name="coins" x="1054" y="867" width="38" height="38"/>
@@ -196,5 +194,7 @@
   <object id="113" x="-298.667" y="-140" width="1.33333" height="1.33333"/>
   <object id="114" name="zombie" x="406.667" y="36" width="42.6667" height="45.3333"/>
   <object id="116" name="big_zombie" x="1785.33" y="82.6667" width="45.3333" height="49.3333"/>
+  <object id="117" name="health" x="2317.33" y="690.667" width="56" height="50.6667"/>
+  <object id="118" name="health" x="1093.33" y="654.667" width="53.3333" height="48"/>
  </objectgroup>
 </map>
