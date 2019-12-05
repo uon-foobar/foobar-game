@@ -48,17 +48,21 @@ MOB_IMG = 'zombie1_hold.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 
-#Zombie
+# Zombie
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 20
 
-#BigZombie
+# BigZombie
 MOB_IMG2 = 'zombie1_hold2.png'
 MOB_SPEED2 = 100
 MOB_HEALTH2 = 200
 
-#Boss
+# Boss
 MOB_IMG3 = 'boss.png'
 MOB_SPEED3 = 300
 MOB_HEALTH3 = 300
+
+# Items
+ITEM_IMAGES = {'health': 'health_pack.png'}
+HEALTH_PACK_AMOUNT = 20

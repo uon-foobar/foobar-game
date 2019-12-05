@@ -4,6 +4,7 @@ from settings import *
 from tilemap import collide_hit_rect
 vec = pg.math.Vector2
 
+
 def collide_with_walls(sprite, group, dir):
     if dir == 'x':
         hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
@@ -24,6 +25,7 @@ def collide_with_walls(sprite, group, dir):
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
 
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -31,6 +33,7 @@ class Player(pg.sprite.Sprite):
         self.game = game
         self.image = game.player_img
         self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
         self.hit_rect = PLAYER_HIT_RECT
         self.hit_rect.center = self.rect.center
         self.vel = vec(0, 0)
@@ -73,6 +76,12 @@ class Player(pg.sprite.Sprite):
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
 
+    def add_health(self, amount):
+        self.health += amount
+        if self.health > PLAYER_HEALTH:
+            self.health = PLAYER_HEALTH
+
+
 class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs
@@ -86,6 +95,7 @@ class Mob(pg.sprite.Sprite):
             self.image = game.mob_img3
         self.rect = self.image.get_rect()
         self.hit_rect = MOB_HIT_RECT.copy()
+        self.rect.center = (x, y)
         self.hit_rect.center = self.rect.center
         self.pos = vec(x, y)
         self.vel = vec(0, 0)
@@ -128,20 +138,24 @@ class Mob(pg.sprite.Sprite):
         if self.health < self.HEALTH:
             pg.draw.rect(self.image, col, self.health_bar)
 
+
 class Zombie(Mob):
     TYPE = 1
     HEALTH = MOB_HEALTH
-    SPEED = MOB_SPEED  
+    SPEED = MOB_SPEED
+
 
 class BigZombie(Mob):
     TYPE = 2
     HEALTH = MOB_HEALTH2
     SPEED = MOB_SPEED2
-    
+
+
 class Boss(Mob):
     TYPE = 3
     HEALTH = MOB_HEALTH3
     SPEED = MOB_SPEED3
+
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):
@@ -165,6 +179,7 @@ class Bullet(pg.sprite.Sprite):
         if pg.time.get_ticks() - self.spawn_time > BULLET_LIFETIME:
             self.kill()
 
+
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls
@@ -177,6 +192,7 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
+
 class Obstacle(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
         self.groups = game.walls
@@ -188,3 +204,18 @@ class Obstacle(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x
         self.rect.y = y
+
+# Item Sprites - using for health, and maybe guns
+
+
+class Item(pg.sprite.Sprite):
+    # type - healthpack , guns etc
+    def __init__(self, game, pos, type):
+        self.groups = game.all_sprites, game.items
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.item_images[type]
+        self.rect = self.image.get_rect()
+        self.type = type
+        self.rect.center = pos
+        self.pos = pos

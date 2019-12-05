@@ -58,6 +58,10 @@ class Game:
         self.wall_img = pg.image.load(
             path.join(img_folder, WALL_IMG)).convert_alpha()
         self.wall_img = pg.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
+        self.item_images = {}
+        for item in ITEM_IMAGES:
+            self.item_images[item] = pg.image.load(
+                path.join(img_folder, ITEM_IMAGES[item])).convert_alpha()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -65,6 +69,10 @@ class Game:
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
+        self.items = pg.sprite.Group()
+        for tile_object in self.map.tmxdata.objects:
+            obj_center = vec(tile_object.x + tile_object.width / 2,
+                             tile_object.y + tile_object.height / 2)
         # for row, tiles in enumerate(self.map.data):
         #     for col, tile in enumerate(tiles):
         #         if tile == '1':
@@ -85,6 +93,8 @@ class Game:
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
+            if tile_object.name in ['health']:
+                Item(self, obj_center, tile_object.name)
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
 
@@ -105,6 +115,13 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
+        # player hits an item
+        # we use false instead of true cause we dont want player to 'pick' up the health at 100hp
+        hits = pg.sprite.spritecollide(self.player, self.items, False)
+        for hit in hits:
+            if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
+                hit.kill()
+                self.player.add_health(HEALTH_PACK_AMOUNT)
         # mobs hit player
         hits = pg.sprite.spritecollide(
             self.player, self.mobs, False, collide_hit_rect)
@@ -167,7 +184,8 @@ class Game:
 
     def show_start_screen(self):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
-            words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
+            # 2D array where each row is a list of words.
+            words = [word.split(' ') for word in text.splitlines()]
             space = font.size(' ')[0]  # The width of a space.
             max_width, max_height = surface.get_size()
             x, y = pos
@@ -183,7 +201,6 @@ class Game:
                 x = pos[0]  # Reset the x.
                 y += word_height  # Start on new row.
 
-
         introString = "                      Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
 
         introScreen = pg.display.set_mode((1024, 800))
@@ -195,8 +212,9 @@ class Game:
                     #intro = False
                     return
             font = pg.font.SysFont("Courier New", 20)
-            introScreen.fill([50,50,50])
-            blit_text(introScreen, introString, (50, 50), font, [230,230,230])
+            introScreen.fill([50, 50, 50])
+            blit_text(introScreen, introString,
+                      (50, 50), font, [230, 230, 230])
             pg.display.flip()
 
     def show_go_screen(self):
