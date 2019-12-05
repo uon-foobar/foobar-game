@@ -9,6 +9,7 @@ from tilemap import *
 
 # HUD functions
 
+CURRENTMAP = 0
 
 def draw_player_health(surf, x, y, pct):
     if pct < 0:
@@ -37,7 +38,7 @@ def display_coin_counter(surf, x, y, coins_collected):
     g.screen.blit(text, textRect)
 
 class Game:
-    def __init__(self, mapIndex = 1):
+    def __init__(self, mapIndex = 0):
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -48,10 +49,10 @@ class Game:
         self.mapList = []
         for i in range(1,5):
             self.mapList.append(TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
-        self.map = self.mapList[mapIndex]
-        print(self.map)
-        self.restart = False
+        self.map = self.mapList[CURRENTMAP]
         self.load_data()
+        self.restart = False
+
 
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -132,6 +133,7 @@ class Game:
         sys.exit()
 
     def update(self):
+        global CURRENTMAP
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
@@ -150,8 +152,9 @@ class Game:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
-                self.show_screen(DEAD)
-                self.restart = True
+                self.show_screen(DEAD, INFOPOS)
+                #self.restart = True
+                CURRENTMAP = 0
                 self.playing = False
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
@@ -166,8 +169,9 @@ class Game:
             pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
             self.player.coin_count += 1
         
-        if self.player.coin_count == 3:
-            self.show_screen(NEWLEVEL)
+        if self.player.coin_count == NEXTLEVELCOINS:
+            self.show_screen(NEWLEVEL,INFOPOS)
+            CURRENTMAP += 1
             self.playing = False
             
         if pg.sprite.spritecollide(self.player, self.mobs, False, collided = None):
@@ -219,7 +223,7 @@ class Game:
                 if event.key == pg.K_h:
                     self.draw_debug = not self.draw_debug     
     
-    def show_screen(self, text):
+    def show_screen(self, text, pos):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
             # 2D array where each row is a list of words.
             words = [word.split(' ') for word in text.splitlines()]
@@ -251,20 +255,14 @@ class Game:
             font = pg.font.SysFont("Courier New", 20)
             infoScreen.fill([50, 50, 50])
             blit_text(infoScreen, text,
-                      (50, 50), font, [230, 230, 230])
+                      pos, font, [230, 230, 230])
             pg.display.flip()
 
 
 # create the game object
+Game().show_screen(INTRO, INFOPOS)
 while True:
+    Game().show_screen("LEVEL {}".format(CURRENTMAP+1), LEVELPOS)
     g = Game()
-    g.show_screen(INTRO)
-    while True:
-        for i in range(len(g.mapList)):
-            g = Game(i)
-            if g.restart:
-                break
-            else:
-                g = Game(i)
-                g.new()
-                g.run()
+    g.new()
+    g.run()
