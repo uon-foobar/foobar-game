@@ -37,22 +37,25 @@ def display_coin_counter(surf, x, y, coins_collected):
     g.screen.blit(text, textRect)
 
 class Game:
-    def __init__(self):
+    def __init__(self, mapIndex = 1):
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        map_folder = path.join(game_folder, 'maps')
+        self.mapList = []
+        for i in range(1,5):
+            self.mapList.append(TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
+        self.map = self.mapList[mapIndex]
+        print(self.map)
+        self.restart = False
         self.load_data()
 
     def load_data(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
-        map_folder = path.join(game_folder, 'maps')
-        mapList = []
-        for i in range(1,5):
-            mapList.append(TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
-        #self.map = TiledMap(path.join(map_folder, 'level2.tmx'))
-        self.map = mapList[random.randint(0,3)]
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(
@@ -137,6 +140,7 @@ class Game:
             if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
                 hit.kill()
                 self.player.add_health(HEALTH_PACK_AMOUNT)
+
         # mobs hit player
         hits = pg.sprite.spritecollide(
             self.player, self.mobs, False, collide_hit_rect)
@@ -144,9 +148,12 @@ class Game:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
+                self.show_screen(DEAD)
+                self.restart = True
                 self.playing = False
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
+
         # bullets hit mobs
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
         for hit in hits:
@@ -159,9 +166,8 @@ class Game:
             self.player.coin_count += 1
         
         if self.player.coin_count == 3:
-            self.show_go_screen()
+            self.show_screen(NEWLEVEL)
             self.playing = False
-            
         
 
     def draw_grid(self):
@@ -207,9 +213,9 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
                 if event.key == pg.K_h:
-                    self.draw_debug = not self.draw_debug
-
-    def show_start_screen(self):
+                    self.draw_debug = not self.draw_debug     
+    
+    def show_screen(self, text):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
             # 2D array where each row is a list of words.
             words = [word.split(' ') for word in text.splitlines()]
@@ -228,63 +234,33 @@ class Game:
                 x = pos[0]  # Reset the x.
                 y += word_height  # Start on new row.
 
-        introString = "                      Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
-
-        introScreen = pg.display.set_mode((1024, 800))
+        infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     quit()
+                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                    self.quit()
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
                     #intro = False
                     return
             font = pg.font.SysFont("Courier New", 20)
-            introScreen.fill([50, 50, 50])
-            blit_text(introScreen, introString,
-                      (50, 50), font, [230, 230, 230])
-            pg.display.flip()
-
-    def show_go_screen(self):
-        def blit_text(surface, text, pos, font, color=pg.Color('black')):
-            # 2D array where each row is a list of words.
-            words = [word.split(' ') for word in text.splitlines()]
-            space = font.size(' ')[0]  # The width of a space.
-            max_width, max_height = surface.get_size()
-            x, y = pos
-            for line in words:
-                for word in line:
-                    word_surface = font.render(word, 0, color)
-                    word_width, word_height = word_surface.get_size()
-                    if x + word_width >= max_width:
-                        x = pos[0]  # Reset the x.
-                        y += word_height  # Start on new row.
-                    surface.blit(word_surface, (x, y))
-                    x += word_width + space
-                x = pos[0]  # Reset the x.
-                y += word_height  # Start on new row.
-
-        introString = "PRESS ENTER TO CONTINUE TO THE NEXT LEVEL"
-
-        introScreen = pg.display.set_mode((1024, 800))
-        while True:
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    quit()
-                elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
-                    #intro = False
-                    return
-            font = pg.font.SysFont("Courier New", 20)
-            introScreen.fill([50, 50, 50])
-            blit_text(introScreen, introString,
+            infoScreen.fill([50, 50, 50])
+            blit_text(infoScreen, text,
                       (50, 50), font, [230, 230, 230])
             pg.display.flip()
 
 
 # create the game object
-g = Game().show_start_screen()
-
 while True:
     g = Game()
-    g.new()
-    g.run()
-    g.show_go_screen()
+    g.show_screen(INTRO)
+    while True:
+        for i in range(len(g.mapList)):
+            g = Game(i)
+            if g.restart:
+                break
+            else:
+                g = Game(i)
+                g.new()
+                g.run()
