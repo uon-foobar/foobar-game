@@ -47,6 +47,7 @@ BULLET_DAMAGE = 10
 MOB_IMG = 'zombie1_hold.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
+KILLCOUNT = 0
 
 # Zombie
 MOB_HEALTH = 100

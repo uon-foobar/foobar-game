@@ -108,6 +108,7 @@ class Mob(pg.sprite.Sprite):
         self.health = self.HEALTH
 
     def update(self):
+        global KILLCOUNT
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
         if self.TYPE == 1:
             self.image = pg.transform.rotate(self.game.mob_img, self.rot)
@@ -128,6 +129,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.kill()
+            KILLCOUNT += 1
 
     def draw_health(self):
         if self.health > 60:
@@ -225,7 +227,7 @@ class Item(pg.sprite.Sprite):
         
 
 class coins(pg.sprite.Sprite):
-
+    
     
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.coins
