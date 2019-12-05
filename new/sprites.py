@@ -6,10 +6,6 @@ vec = pg.math.Vector2
 
 
 def collide_with_walls(sprite, group, dir):
-    
-
-
-    
     if dir == 'x':
         hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
         if hits:
@@ -28,16 +24,12 @@ def collide_with_walls(sprite, group, dir):
                 sprite.pos.y = hits[0].rect.bottom + sprite.hit_rect.height / 2
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
-            
 
-class Sprites(pg.sprite.Sprite):
-    pg.sprite.LayeredUpdates.add
 
-class Player(Sprites):
+class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        pg.sprite.LayeredUpdates.move_to_front
         self.game = game
         self.image = game.player_img
         self.rect = self.image.get_rect()
@@ -64,10 +56,7 @@ class Player(Sprites):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
-            
             pg.mixer.Sound.play(pg.mixer.Sound('audio/shooting_1.ogg'))
-            #pg.mixer.music.load('audio/shooting_1.ogg')
-            #pg.mixer.music.play(0)
             now = pg.time.get_ticks()
             if now - self.last_shot > BULLET_RATE:
                 self.last_shot = now
@@ -87,19 +76,16 @@ class Player(Sprites):
         collide_with_walls(self, self.game.walls, 'x')
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
-
         self.rect.center = self.hit_rect.center
 
     def add_health(self, amount):
         pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
-        #pg.mixer.music.load('audio/health_powerup.ogg')
-        #pg.mixer.music.play(0)
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
 
 
-class Mob(Sprites):
+class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -122,6 +108,7 @@ class Mob(Sprites):
         self.health = self.HEALTH
 
     def update(self):
+        global KILLCOUNT
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
         if self.TYPE == 1:
             self.image = pg.transform.rotate(self.game.mob_img, self.rot)
@@ -142,6 +129,7 @@ class Mob(Sprites):
         self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.kill()
+            KILLCOUNT += 1
 
     def draw_health(self):
         if self.health > 60:
@@ -174,7 +162,7 @@ class Boss(Mob):
     SPEED = MOB_SPEED3
 
 
-class Bullet(Sprites):
+class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):
         self.groups = game.all_sprites, game.bullets
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -197,7 +185,7 @@ class Bullet(Sprites):
             self.kill()
 
 
-class Wall(Sprites):
+class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -210,7 +198,7 @@ class Wall(Sprites):
         self.rect.y = y * TILESIZE
 
 
-class Obstacle(Sprites):
+class Obstacle(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
         self.groups = game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -239,7 +227,7 @@ class Item(pg.sprite.Sprite):
         
 
 class coins(pg.sprite.Sprite):
-
+    
     
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.coins

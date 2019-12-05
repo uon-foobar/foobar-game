@@ -37,18 +37,25 @@ def display_coin_counter(surf, x, y, coins_collected):
     g.screen.blit(text, textRect)
 
 class Game:
-    def __init__(self):
+    def __init__(self, mapIndex = 1):
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        map_folder = path.join(game_folder, 'maps')
+        self.mapList = []
+        for i in range(1,5):
+            self.mapList.append(TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
+        self.map = self.mapList[mapIndex]
+        print(self.map)
+        self.restart = False
         self.load_data()
 
     def load_data(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
-        map_folder = path.join(game_folder, 'maps')
-        self.map = TiledMap(path.join(map_folder, 'level2.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(
@@ -91,6 +98,8 @@ class Game:
         #         if tile == 'P':
         #             self.player = Player(self, col, row)
         for tile_object in self.map.tmxdata.objects:
+            if tile_object.name == 'player':
+                self.player = Player(self, tile_object.x, tile_object.y)
             if tile_object.name == 'zombie':
                 Zombie(self, tile_object.x, tile_object.y)
             if tile_object.name == 'big_zombie':
@@ -101,31 +110,18 @@ class Game:
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
             if tile_object.name in ['health']:
-                Item(self, obj_center, tile_object.name)
-                
+                Item(self, obj_center, tile_object.name)   
             if tile_object.name == 'coins':
                 coins(self, tile_object.x, tile_object.y)
-                
-            if tile_object.name == 'player':
-                self.player = Player(self, tile_object.x, tile_object.y)
-            
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
 
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
-        
         pg.mixer.music.load('audio/game_song1.mp3')
         pg.mixer.music.play(-1)
-        
-
-        
-        
         while self.playing:
-            
-        
-            
             self.dt = self.clock.tick(FPS) / 1000.0  # fix for Python 2.x
             self.events()
             self.update()
@@ -146,18 +142,20 @@ class Game:
             if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
                 hit.kill()
                 self.player.add_health(HEALTH_PACK_AMOUNT)
+
         # mobs hit player
         hits = pg.sprite.spritecollide(
             self.player, self.mobs, False, collide_hit_rect)
-        
-        
         for hit in hits:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
+                self.show_screen(DEAD)
+                self.restart = True
                 self.playing = False
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
+
         # bullets hit mobs
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
         for hit in hits:
@@ -167,14 +165,13 @@ class Game:
         if pg.sprite.spritecollide(self.player, self.coins, True, collided = None):
             pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
             self.player.coin_count += 1
+        
+        if self.player.coin_count == 3:
+            self.show_screen(NEWLEVEL)
+            self.playing = False
             
         if pg.sprite.spritecollide(self.player, self.mobs, False, collided = None):
-            
-            
             pg.mixer.Sound.play(pg.mixer.Sound('audio/punch.wav'))
-            #pg.mixer.music.load('audio/slap.mp3')
-            #pg.mixer.music.play(0)
-            
         
 
     def draw_grid(self):
@@ -220,9 +217,9 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
                 if event.key == pg.K_h:
-                    self.draw_debug = not self.draw_debug
-
-    def show_start_screen(self):
+                    self.draw_debug = not self.draw_debug     
+    
+    def show_screen(self, text):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
             # 2D array where each row is a list of words.
             words = [word.split(' ') for word in text.splitlines()]
@@ -241,30 +238,33 @@ class Game:
                 x = pos[0]  # Reset the x.
                 y += word_height  # Start on new row.
 
-        introString = "                      Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
-
-        introScreen = pg.display.set_mode((1024, 800))
+        infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     quit()
+                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                    self.quit()
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
                     #intro = False
                     return
             font = pg.font.SysFont("Courier New", 20)
-            introScreen.fill([50, 50, 50])
-            blit_text(introScreen, introString,
+            infoScreen.fill([50, 50, 50])
+            blit_text(infoScreen, text,
                       (50, 50), font, [230, 230, 230])
             pg.display.flip()
 
-    def show_go_screen(self):
-        pass
-
 
 # create the game object
-g = Game().show_start_screen()
-g = Game()
 while True:
-    g.new()
-    g.run()
-    g.show_go_screen()
+    g = Game()
+    g.show_screen(INTRO)
+    while True:
+        for i in range(len(g.mapList)):
+            g = Game(i)
+            if g.restart:
+                break
+            else:
+                g = Game(i)
+                g.new()
+                g.run()
