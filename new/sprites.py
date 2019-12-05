@@ -4,6 +4,7 @@ from settings import *
 from tilemap import collide_hit_rect
 vec = pg.math.Vector2
 
+
 def collide_with_walls(sprite, group, dir):
     if dir == 'x':
         hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
@@ -24,6 +25,7 @@ def collide_with_walls(sprite, group, dir):
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
 
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -31,6 +33,7 @@ class Player(pg.sprite.Sprite):
         self.game = game
         self.image = game.player_img
         self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
         self.hit_rect = PLAYER_HIT_RECT
         self.hit_rect.center = self.rect.center
         self.vel = vec(0, 0)
@@ -38,6 +41,7 @@ class Player(pg.sprite.Sprite):
         self.rot = 0
         self.last_shot = 0
         self.health = PLAYER_HEALTH
+        self.coin_count = 0
 
     def get_keys(self):
         self.rot_speed = 0
@@ -52,6 +56,8 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
+            pg.mixer.music.load('audio/shooting_1.ogg')
+            pg.mixer.music.play(0)
             now = pg.time.get_ticks()
             if now - self.last_shot > BULLET_RATE:
                 self.last_shot = now
@@ -73,28 +79,45 @@ class Player(pg.sprite.Sprite):
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
 
+    def add_health(self, amount):
+        self.health += amount
+        if self.health > PLAYER_HEALTH:
+            self.health = PLAYER_HEALTH
+
+
 class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.mob_img
+        if self.TYPE == 1:
+            self.image = game.mob_img
+        if self.TYPE == 2:
+            self.image = game.mob_img2
+        if self.TYPE == 3:
+            self.image = game.mob_img3
         self.rect = self.image.get_rect()
         self.hit_rect = MOB_HIT_RECT.copy()
+        self.rect.center = (x, y)
         self.hit_rect.center = self.rect.center
         self.pos = vec(x, y)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
-        self.health = MOB_HEALTH
+        self.health = self.HEALTH
 
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
-        self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        if self.TYPE == 1:
+            self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        if self.TYPE == 2:
+            self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
+        if self.TYPE == 3:
+            self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
         # self.rect = self.image.get_rect()
         self.rect.center = self.pos
-        self.acc = vec(MOB_SPEED, 0).rotate(-self.rot)
+        self.acc = vec(self.SPEED, 0).rotate(-self.rot)
         self.acc += self.vel * -1
         self.vel += self.acc * self.game.dt
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
@@ -113,10 +136,29 @@ class Mob(pg.sprite.Sprite):
             col = YELLOW
         else:
             col = RED
-        width = int(self.rect.width * self.health / MOB_HEALTH)
+        width = int(self.rect.width * self.health / self.HEALTH)
         self.health_bar = pg.Rect(0, 0, width, 7)
-        if self.health < MOB_HEALTH:
+        if self.health < self.HEALTH:
             pg.draw.rect(self.image, col, self.health_bar)
+
+
+class Zombie(Mob):
+    TYPE = 1
+    HEALTH = MOB_HEALTH
+    SPEED = MOB_SPEED
+
+
+class BigZombie(Mob):
+    TYPE = 2
+    HEALTH = MOB_HEALTH2
+    SPEED = MOB_SPEED2
+
+
+class Boss(Mob):
+    TYPE = 3
+    HEALTH = MOB_HEALTH3
+    SPEED = MOB_SPEED3
+
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):
@@ -140,6 +182,7 @@ class Bullet(pg.sprite.Sprite):
         if pg.time.get_ticks() - self.spawn_time > BULLET_LIFETIME:
             self.kill()
 
+
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls
@@ -152,6 +195,7 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
+
 class Obstacle(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
         self.groups = game.walls
@@ -163,3 +207,47 @@ class Obstacle(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x
         self.rect.y = y
+
+# Item Sprites - using for health, and maybe guns
+
+
+class Item(pg.sprite.Sprite):
+    # type - healthpack , guns etc
+    def __init__(self, game, pos, type):
+        self.groups = game.all_sprites, game.items
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.item_images[type]
+        self.rect = self.image.get_rect()
+        self.type = type
+        self.rect.center = pos
+        self.pos = pos
+        
+
+class coins(pg.sprite.Sprite):
+
+    
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.coins
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.images = []
+        self.images.append(pg.image.load("img/coin_animation/Coin1.png"))
+        self.images.append(pg.image.load("img/coin_animation/Coin2.png"))
+        self.images.append(pg.image.load("img/coin_animation/Coin3.png"))
+        self.images.append(pg.image.load("img/coin_animation/Coin4.png"))
+        self.images.append(pg.image.load("img/coin_animation/Coin5.png"))
+        self.images.append(pg.image.load("img/coin_animation/Coin6.png"))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect()
+        self.pos = vec(x, y)
+        self.rect.center = self.pos
+
+
+    def update(self):
+        
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+        self.image = self.images[self.index]
