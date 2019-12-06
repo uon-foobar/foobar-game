@@ -147,6 +147,9 @@ class Game:
                 self.player.add_health(HEALTH_PACK_AMOUNT)
             if hit.type == 'shotgun':
                 hit.kill()
+
+                pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
+
                 self.player.weapon = 'shotgun'
 
         # mobs hit player
@@ -157,6 +160,10 @@ class Game:
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
                 self.show_screen(DEAD, INFOPOS)
+
+                pg.mixer.music.load('audio/death.ogg')
+                pg.mixer.music.play(0)
+
                 #self.restart = True
                 CURRENTMAP = 0
                 self.playing = False
