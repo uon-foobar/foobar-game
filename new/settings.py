@@ -108,7 +108,8 @@ MOB_HEALTH3 = 300
 
 # Items
 ITEM_IMAGES = {'health': 'health_pack.png',
-               'shotgun': 'shotgun.png'}
+               'shotgun': 'shotgun.png',
+                'machinegun': 'machinegun.png',}
 HEALTH_PACK_AMOUNT = 20
 
 # Coins
