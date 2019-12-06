@@ -22,7 +22,7 @@ FPS = 60
 TITLE = "Foobar"
 BGCOLOR = BROWN
 
-MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx']
+MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx', 'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
 NEXTLEVELCOINS = 2
 
 
