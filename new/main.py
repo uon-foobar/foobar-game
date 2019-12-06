@@ -119,7 +119,7 @@ class Game:
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
-            if tile_object.name in ['health', 'shotgun']:
+            if tile_object.name in ['health', 'shotgun','machinegun']:
                 Item(self, obj_center, tile_object.name)
             if tile_object.name == 'coins':
                 coins(self, tile_object.x, tile_object.y)
@@ -157,13 +157,16 @@ class Game:
                 hit.kill()
                 self.player.add_health(HEALTH_PACK_AMOUNT)
             if hit.type == 'shotgun':
-                hit.kill()
-
-                # pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
-
                 pg.mixer.Channel(4).play(
                     pg.mixer.Sound('audio/coin_collect.wav'))
+                hit.kill()
                 self.player.weapon = 'shotgun'
+
+            if hit.type == 'machinegun':
+                pg.mixer.Channel(4).play(
+                    pg.mixer.Sound('audio/coin_collect.wav'))
+                hit.kill()
+                self.player.weapon = 'machinegun'
 
         # mobs hit player and game ends on player death
         hits = pg.sprite.spritecollide(
