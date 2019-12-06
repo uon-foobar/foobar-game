@@ -51,6 +51,7 @@ BARREL_OFFSET = vec(30, 10)
 
 # Gun settings
 BULLET_IMG = 'bullet.png'
+BULLET_IMG2 = 'bullet2.png'
 WEAPONS = {}
 WEAPONS['pistol'] = {'bullet_speed': 500,
                      'bullet_lifetime': 1000,
@@ -68,6 +69,14 @@ WEAPONS['shotgun'] = {'bullet_speed': 500,
                       'damage': 5,
                       'bullet_size': 'sm',
                       'bullet_count': 12}
+WEAPONS['machinegun'] = {'bullet_speed': 500,
+                      'bullet_lifetime': 1500,
+                      'rate': 150,
+                      'kickback': 300,
+                      'spread': 5,
+                      'damage': 10,
+                      'bullet_size': 'rd',
+                      'bullet_count': 1}
 BULLET_SPEED = 500
 BULLET_LIFETIME = 1000
 BULLET_RATE = 150

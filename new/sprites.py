@@ -65,6 +65,8 @@ class Player(pg.sprite.Sprite):
                 pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
         if self.weapon == 'shotgun':
                 pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
+        if self.weapon == 'machinegun':
+                pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg')) ### Richard
 
         now = pg.time.get_ticks()
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
@@ -246,21 +248,12 @@ class Item(pg.sprite.Sprite):
 
 
 class coins(pg.sprite.Sprite):
-
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.coins
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        #self.images = []
-        #self.images.append(pg.image.load("img/coin_animation/Coin1.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin2.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin3.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin4.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin5.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin6.png"))
         self.index = 0
         self.image = COIN_IMAGE_LIST[self.index]
-        #self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.pos = vec(x, y)
         self.rect.center = self.pos
@@ -268,7 +261,5 @@ class coins(pg.sprite.Sprite):
     def update(self):
         self.index += 1
         if self.index >= len(COIN_IMAGE_LIST):
-        #if self.index >= len(self.images):
             self.index = 0
         self.image = COIN_IMAGE_LIST[self.index]
-        #self.image = self.images[self.index]
