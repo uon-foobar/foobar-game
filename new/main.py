@@ -11,6 +11,7 @@ from tilemap import *
 
 CURRENTMAP = 0
 
+
 def draw_player_health(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -28,17 +29,20 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, col, fill_rect)
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
+
 def display_coin_counter(surf, x, y, coins_collected):
-    white = (255, 255, 255) 
-    green = (0, 255, 0) 
+    white = (255, 255, 255)
+    green = (0, 255, 0)
     blue = (0, 0, 128)
     font = pg.font.Font('freesansbold.ttf', 32)
-    text = font.render('coins_collected = {}'.format(coins_collected), True, green, blue)
-    textRect = pg.Rect(300, 0, 35,35)
+    text = font.render('               Coins = {}           '.format(
+        coins_collected), True, white,)
+    textRect = pg.Rect(300, 0, 35, 35)
     g.screen.blit(text, textRect)
 
+
 class Game:
-    def __init__(self, mapIndex = 0):
+    def __init__(self, mapIndex=0):
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -47,12 +51,12 @@ class Game:
         img_folder = path.join(game_folder, 'img')
         map_folder = path.join(game_folder, 'maps')
         self.mapList = []
-        for i in range(1,5):
-            self.mapList.append(TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
+        for i in range(1, 5):
+            self.mapList.append(
+                TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
         self.map = self.mapList[CURRENTMAP]
         self.load_data()
         self.restart = False
-
 
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -61,10 +65,12 @@ class Game:
         self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
-        self.bullet_img = pg.image.load(
+        self.bullet_images = {}
+        self.bullet_images['lg'] = pg.image.load(
             path.join(img_folder, BULLET_IMG)).convert_alpha()
-        self.bullet_img2 = pg.image.load(
-            path.join(img_folder, BULLET_IMG2)).convert_alpha()
+        # small bullets is same img scaled down 10by10
+        self.bullet_images['sm'] = pg.transform.scale(
+            self.bullet_images['lg'], (10, 10))
         self.mob_img = pg.image.load(
             path.join(img_folder, MOB_IMG)).convert_alpha()
         self.mob_img2 = pg.image.load(
@@ -90,15 +96,6 @@ class Game:
         for tile_object in self.map.tmxdata.objects:
             obj_center = vec(tile_object.x + tile_object.width / 2,
                              tile_object.y + tile_object.height / 2)
-        # for row, tiles in enumerate(self.map.data):
-        #     for col, tile in enumerate(tiles):
-        #         if tile == '1':
-        #             Wall(self, col, row)
-        #         if tile == 'M':
-        #             Mob(self, col, row)
-        #         if tile == 'P':
-        #             self.player = Player(self, col, row)
-        for tile_object in self.map.tmxdata.objects:
             if tile_object.name == 'player':
                 self.player = Player(self, tile_object.x, tile_object.y)
             if tile_object.name == 'zombie':
@@ -110,8 +107,8 @@ class Game:
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
-            if tile_object.name in ['health']:
-                Item(self, obj_center, tile_object.name)   
+            if tile_object.name in ['health', 'shotgun']:
+                Item(self, obj_center, tile_object.name)
             if tile_object.name == 'coins':
                 coins(self, tile_object.x, tile_object.y)
         self.camera = Camera(self.map.width, self.map.height)
@@ -144,6 +141,9 @@ class Game:
             if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
                 hit.kill()
                 self.player.add_health(HEALTH_PACK_AMOUNT)
+            if hit.type == 'shotgun':
+                hit.kill()
+                self.player.weapon = 'shotgun'
 
         # mobs hit player
         hits = pg.sprite.spritecollide(
@@ -160,23 +160,25 @@ class Game:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
 
         # bullets hit mobs
+        # hits is a dict each key of dict a mob that got hit, list of bullets that hits the mob
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
+        # for each mob that got hit subtract the health by bullets that hit
         for hit in hits:
-            hit.health -= BULLET_DAMAGE
+            hit.health -= WEAPONS[self.player.weapon]['damage'] * \
+                len(hits[hit])
             hit.vel = vec(0, 0)
-        
-        if pg.sprite.spritecollide(self.player, self.coins, True, collided = None):
+
+        if pg.sprite.spritecollide(self.player, self.coins, True, collided=None):
             pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
             self.player.coin_count += 1
-        
+
         if self.player.coin_count == NEXTLEVELCOINS:
-            self.show_screen(NEWLEVEL,INFOPOS)
+            self.show_screen(NEWLEVEL, INFOPOS)
             CURRENTMAP += 1
             self.playing = False
-            
-        if pg.sprite.spritecollide(self.player, self.mobs, False, collided = None):
+
+        if pg.sprite.spritecollide(self.player, self.mobs, False, collided=None):
             pg.mixer.Sound.play(pg.mixer.Sound('audio/punch.wav'))
-        
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -221,8 +223,8 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
                 if event.key == pg.K_h:
-                    self.draw_debug = not self.draw_debug     
-    
+                    self.draw_debug = not self.draw_debug
+
     def show_screen(self, text, pos):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
             # 2D array where each row is a list of words.
@@ -262,7 +264,7 @@ class Game:
 # create the game object
 Game().show_screen(INTRO, INFOPOS)
 while True:
-    Game().show_screen("LEVEL {}".format(CURRENTMAP+1), LEVELPOS)
+    Game().show_screen("LEVEL {}".format(CURRENTMAP + 1), LEVELPOS)
     g = Game()
     g.new()
     g.run()

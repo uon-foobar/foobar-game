@@ -42,6 +42,7 @@ class Player(pg.sprite.Sprite):
         self.last_shot = 0
         self.health = PLAYER_HEALTH
         self.coin_count = 0
+        self.weapon = 'pistol'
 
     def get_keys(self):
         self.rot_speed = 0
@@ -56,14 +57,20 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
-            pg.mixer.Sound.play(pg.mixer.Sound('audio/shooting_1.ogg'))
-            now = pg.time.get_ticks()
-            if now - self.last_shot > BULLET_RATE:
-                self.last_shot = now
-                dir = vec(1, 0).rotate(-self.rot)
-                pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
-                Bullet(self.game, pos, dir)
-                self.vel = vec(-KICKBACK, 0).rotate(-self.rot)
+            self.shoot()
+
+    def shoot(self):
+        now = pg.time.get_ticks()
+        if now - self.last_shot > WEAPONS[self.weapon]['rate']:
+            self.last_shot = now
+            dir = vec(1, 0).rotate(-self.rot)
+            pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
+            self.vel = vec(-WEAPONS[self.weapon]
+                           ['kickback'], 0).rotate(-self.rot)
+            for i in range(WEAPONS[self.weapon]['bullet_count']):
+                spread = uniform(-WEAPONS[self.weapon]
+                                 ['spread'], WEAPONS[self.weapon]['spread'])
+                Bullet(self.game, pos, dir.rotate(spread))
 
     def update(self):
         self.get_keys()
@@ -167,13 +174,14 @@ class Bullet(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.bullets
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.bullet_img
+        self.image = game.bullet_images[WEAPONS[game.player.weapon]
+                                        ['bullet_size']]
         self.rect = self.image.get_rect()
         self.hit_rect = self.rect
         self.pos = vec(pos)
         self.rect.center = pos
-        spread = uniform(-GUN_SPREAD, GUN_SPREAD)
-        self.vel = dir.rotate(spread) * BULLET_SPEED
+        #spread = uniform(-GUN_SPREAD, GUN_SPREAD)
+        self.vel = dir * WEAPONS[game.player.weapon]['bullet_speed']
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):
@@ -181,7 +189,7 @@ class Bullet(pg.sprite.Sprite):
         self.rect.center = self.pos
         if pg.sprite.spritecollideany(self, self.game.walls):
             self.kill()
-        if pg.time.get_ticks() - self.spawn_time > BULLET_LIFETIME:
+        if pg.time.get_ticks() - self.spawn_time > WEAPONS[self.game.player.weapon]['bullet_lifetime']:
             self.kill()
 
 
@@ -224,11 +232,10 @@ class Item(pg.sprite.Sprite):
         self.type = type
         self.rect.center = pos
         self.pos = pos
-        
+
 
 class coins(pg.sprite.Sprite):
-    
-    
+
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.coins
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -246,9 +253,8 @@ class coins(pg.sprite.Sprite):
         self.pos = vec(x, y)
         self.rect.center = self.pos
 
-
     def update(self):
-        
+
         self.index += 1
         if self.index >= len(self.images):
             self.index = 0
