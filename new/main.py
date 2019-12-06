@@ -65,6 +65,7 @@ class Game:
         img_folder = path.join(self.game_folder, 'img')
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
+        self.intro_img = pg.image.load(path.join(img_folder, INTRO_IMG)).convert_alpha()
         self.player_img = pg.image.load(
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
         self.bullet_images = {}
@@ -255,7 +256,7 @@ class Game:
                     self.draw_debug = not self.draw_debug
 
     def show_screen(self, text, pos, wait=False):
-        def blit_text(surface, text, pos, font, color=pg.Color('black')):
+        def blit_text(surface, text, pos, font, color=pg.Color('white')):
             # 2D array where each row is a list of words.
             words = [word.split(' ') for word in text.splitlines()]
             space = font.size(' ')[0]  # The width of a space.
@@ -278,7 +279,7 @@ class Game:
             font = pg.font.SysFont("Courier New", 20)
             infoScreen.fill([50, 50, 50])
             blit_text(infoScreen, text,
-                      pos, font, [230, 230, 230])
+                      pos, font)
             pg.display.flip()
             if wait:
                 pg.time.wait(1500)
@@ -292,14 +293,27 @@ class Game:
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
                     #intro = False
                     return
-
+   
+    def intro_screen(self):
+        infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
+        while True:
+            infoScreen.blit(self.intro_img, (0,0))
+            pg.display.flip()
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.quit()
+                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                    self.quit()
+                elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
+                    #intro = False
+                    return
 
 
 # create the game object
 CURRENTMAP = 0
 
 while True:
-    Game().show_screen(INTRO, INFOPOS)
+    Game().intro_screen()
     while True:
         if CURRENTMAP == (len(Game().mapList)):
             CURRENTMAP = 0

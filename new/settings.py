@@ -39,6 +39,8 @@ NEWLEVEL = "                      Wow! You collected {} coins!!!! \n\n\n        
     NEXTLEVELCOINS)
 DEAD = "                      !!!!!! OH NO YOU DIED !!!!!! \n\n\n\n                       If you want to START AGAIN: \n\n                      <-- Press ENTER to begin. --> \n\n\n                          If you want to QUIT: \n\n                           <-- Press ESC -->"
 ENDGAME = "                     Congratulations! You beat the game!!!! \n\n                 You must be a really fantastic Zombie Killer!\n\n\n\n                  If you'd like to play again , just press: \n\n                              <-- ENTER --> \n\n\n\n                           Otherwise quit with:\n\n                               <-- ESC -->"
+INTRO_IMG = 'intro.png'
+
 INFOPOS = (50, 50)
 NEWLEVELPOS = (0, 300)
 LEVELPOS = (450, 350)
