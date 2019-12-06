@@ -1,5 +1,6 @@
 
 import pygame as pg
+#pg.init()
 import sys
 import random
 from os import path
@@ -121,8 +122,8 @@ class Game:
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
-        pg.mixer.music.load('audio/game_song1.mp3')
-        pg.mixer.music.play(-1)
+        #pg.mixer.music.load('audio/game_song1.mp3')
+        #pg.mixer.music.play(-1)
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000.0  # fix for Python 2.x
             self.events()
@@ -148,8 +149,9 @@ class Game:
             if hit.type == 'shotgun':
                 hit.kill()
 
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
-
+                #pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
+                
+                pg.mixer.Channel(4).play(pg.mixer.Sound('audio/coin_collect.wav'))
                 self.player.weapon = 'shotgun'
 
         # mobs hit player
@@ -160,15 +162,18 @@ class Game:
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
                 self.show_screen(DEAD, INFOPOS)
-
                 pg.mixer.music.load('audio/death.ogg')
                 pg.mixer.music.play(0)
-
                 #self.restart = True
                 CURRENTMAP = 0
                 self.playing = False
+        
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
+            
+        #Make punching noise if mob has come into contact with player
+        if pg.sprite.spritecollide(self.player, self.mobs, False, collided=None):
+            pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
 
         # bullets hit mobs
         # hits is a dict each key of dict a mob that got hit, list of bullets that hits the mob
@@ -179,17 +184,15 @@ class Game:
                 len(hits[hit])
             hit.vel = vec(0, 0)
 
+        #Event - Player picks up a coin
         if pg.sprite.spritecollide(self.player, self.coins, True, collided=None):
-            pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
-            self.player.coin_count += 1
+            self.player.collect_coins()
 
         if self.player.coin_count == NEXTLEVELCOINS:
             self.show_screen(NEWLEVEL, INFOPOS)
             CURRENTMAP += 1
             self.playing = False
 
-        if pg.sprite.spritecollide(self.player, self.mobs, False, collided=None):
-            pg.mixer.Sound.play(pg.mixer.Sound('audio/punch.wav'))
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
