@@ -12,6 +12,9 @@ YELLOW = (255, 255, 0)
 BROWN = (106, 55, 5)
 CYAN = (0, 255, 255)
 
+#Audio
+
+
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
 HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
@@ -96,3 +99,11 @@ MOB_HEALTH3 = 300
 ITEM_IMAGES = {'health': 'health_pack.png',
                'shotgun': 'shotgun.png'}
 HEALTH_PACK_AMOUNT = 20
+
+# Coins
+COIN_IMAGE_LIST = [(pg.image.load("img/coin_animation/Coin1.png")),\
+                   (pg.image.load("img/coin_animation/Coin2.png")),\
+                   (pg.image.load("img/coin_animation/Coin3.png")),\
+                   (pg.image.load("img/coin_animation/Coin4.png")),\
+                   (pg.image.load("img/coin_animation/Coin5.png")),\
+                   (pg.image.load("img/coin_animation/Coin6.png"))]

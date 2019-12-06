@@ -77,6 +77,10 @@ class Player(pg.sprite.Sprite):
                 spread = uniform(-WEAPONS[self.weapon]
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
+                
+    def collect_coins(self):
+        pg.mixer.Channel(2).play(pg.mixer.Sound('audio/coin_collect.wav'))
+        self.coin_count += 1
 
     def update(self):
         self.get_keys()
@@ -92,7 +96,8 @@ class Player(pg.sprite.Sprite):
         self.rect.center = self.hit_rect.center
 
     def add_health(self, amount):
-        pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
+        pg.mixer.Channel(5).play(pg.mixer.Sound('audio/health_powerup.ogg'))
+        #pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
@@ -141,6 +146,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.game.player.killcount += 1
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/zombie_death.wav'))
             self.kill()
             
     def draw_health(self):
@@ -245,22 +251,24 @@ class coins(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.coins
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.images = []
-        self.images.append(pg.image.load("img/coin_animation/Coin1.png"))
-        self.images.append(pg.image.load("img/coin_animation/Coin2.png"))
-        self.images.append(pg.image.load("img/coin_animation/Coin3.png"))
-        self.images.append(pg.image.load("img/coin_animation/Coin4.png"))
-        self.images.append(pg.image.load("img/coin_animation/Coin5.png"))
-        self.images.append(pg.image.load("img/coin_animation/Coin6.png"))
+        #self.images = []
+        #self.images.append(pg.image.load("img/coin_animation/Coin1.png"))
+        #self.images.append(pg.image.load("img/coin_animation/Coin2.png"))
+        #self.images.append(pg.image.load("img/coin_animation/Coin3.png"))
+        #self.images.append(pg.image.load("img/coin_animation/Coin4.png"))
+        #self.images.append(pg.image.load("img/coin_animation/Coin5.png"))
+        #self.images.append(pg.image.load("img/coin_animation/Coin6.png"))
         self.index = 0
-        self.image = self.images[self.index]
+        self.image = COIN_IMAGE_LIST[self.index]
+        #self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.pos = vec(x, y)
         self.rect.center = self.pos
 
     def update(self):
-
         self.index += 1
-        if self.index >= len(self.images):
+        if self.index >= len(COIN_IMAGE_LIST):
+        #if self.index >= len(self.images):
             self.index = 0
-        self.image = self.images[self.index]
+        self.image = COIN_IMAGE_LIST[self.index]
+        #self.image = self.images[self.index]

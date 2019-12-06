@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="210">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="209">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
- <layer name="ground" width="50" height="30">
+ <layer id="1" name="ground" width="50" height="30">
   <data encoding="csv">
 35,62,36,7,2,1,2,4,2,4,3,3,6,6,4,3,2,4,4,2,3,4,2,3,1,2,3,2,2,4,1,3,2,1,1,3,1,2,4,4,4,3,1,4,2,1,4,2,2,4,
 35,62,36,8,1,3,2,4,3,3,2,1,5,6,2,4,4,4,1,3,3,1,3,3,2,1,3,3,2,2,3,3,1,4,3,1,1,4,1,4,2,3,2,1,3,2,1,1,2,2,
@@ -37,7 +37,7 @@
 35,93,38,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64
 </data>
  </layer>
- <layer name="walls" width="50" height="30">
+ <layer id="2" name="walls" width="50" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,2684355004,2684355004,0,0,2684355004,2684355004,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -71,7 +71,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="items" width="50" height="30">
+ <layer id="3" name="items" width="50" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,211,212,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,210,0,0,0,0,0,0,2684354770,0,0,0,184,185,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -105,7 +105,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="decorations" width="50" height="30">
+ <layer id="4" name="decorations" width="50" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -139,7 +139,7 @@
 0,0,0,0,0,0,0,0,0,2684354853,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="Obstacles">
+ <objectgroup id="5" name="Obstacles">
   <object id="1" name="player" x="336" y="208" width="32" height="32"/>
   <object id="2" name="wall" x="448" y="320" width="320" height="64"/>
   <object id="3" name="wall" x="448" y="960" width="960" height="64"/>
@@ -239,10 +239,8 @@
   <object id="191" x="2222" y="488"/>
   <object id="194" name="zombie" x="2906.67" y="264" width="52" height="49.3333"/>
   <object id="195" name="zombie" x="2800" y="1773.33" width="41.3333" height="37.3333"/>
-  <object id="204" name="health" x="337" y="940.333" width="46.6667" height="48"/>
+  <object id="204" name="health" x="712" y="765.333" width="46.6667" height="48"/>
   <object id="205" name="health" x="2613.33" y="905.333" width="41.3333" height="33.3333"/>
-  <object id="207" name="shotgun" x="506" y="213" width="22" height="21"/>
-  <object id="208" x="643" y="397"/>
+  <object id="207" name="shotgun" x="546" y="526" width="82" height="78"/>
  </objectgroup>
 </map>
-
