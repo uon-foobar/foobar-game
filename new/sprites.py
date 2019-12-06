@@ -25,7 +25,6 @@ def collide_with_walls(sprite, group, dir):
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
 
-
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -42,6 +41,7 @@ class Player(pg.sprite.Sprite):
         self.last_shot = 0
         self.health = PLAYER_HEALTH
         self.coin_count = 0
+        self.killcount = 0
         self.weapon = 'pistol'
 
     def get_keys(self):
@@ -60,8 +60,6 @@ class Player(pg.sprite.Sprite):
 
             self.shoot()
 
-
-
     def shoot(self):
         if self.weapon == 'pistol':
                 pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
@@ -79,9 +77,6 @@ class Player(pg.sprite.Sprite):
                 spread = uniform(-WEAPONS[self.weapon]
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
-
-                
-
 
     def update(self):
         self.get_keys()
@@ -126,7 +121,6 @@ class Mob(pg.sprite.Sprite):
         self.health = self.HEALTH
 
     def update(self):
-        global KILLCOUNT
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
         if self.TYPE == 1:
             self.image = pg.transform.rotate(self.game.mob_img, self.rot)
@@ -146,9 +140,9 @@ class Mob(pg.sprite.Sprite):
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
         if self.health <= 0:
+            self.game.player.killcount += 1
             self.kill()
-            KILLCOUNT += 1
-
+            
     def draw_health(self):
         if self.health > 60:
             col = GREEN

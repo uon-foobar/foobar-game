@@ -19,6 +19,7 @@ FPS = 60
 TITLE = "Foobar"
 BGCOLOR = BROWN
 
+MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx']
 NEXTLEVELCOINS = 2
 
 
@@ -29,12 +30,13 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 WALL_IMG = 'tileGreen_39.png'
 
 # Load screen messages
-INTRO = "                       Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
-NEWLEVEL = "                    PRESS ENTER TO CONTINUE TO THE NEXT LEVEL"
-DEAD = "                       OH NO YOU DIED !!!!!!!!!!!!!!!! \n\n\n                      If you want to START AGAIN: \n\n                                 <-- ENTER --> \n\n\n\n                      If you want to QUIT: \n\n                                  <-- ESC -->"
+INTRO = "                         Welcome to The foobar. \n\n\n Your job is to move through the world killing zombies and finding powerups. \n\n Collect coins to move to the next level, each level will get slightly more \n difficult! \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n\n                     <-- Press ENTER to begin. --> "
+NEWLEVEL = "                      Wow! You collected {} coins!!!! \n\n\n                   You get to continue to the next level!\n\n                      <-- Press ENTER to continue. -->".format(NEXTLEVELCOINS)
+DEAD = "                      !!!!!! OH NO YOU DIED !!!!!! \n\n\n\n                       If you want to START AGAIN: \n\n                      <-- Press ENTER to begin. --> \n\n\n                          If you want to QUIT: \n\n                           <-- Press ESC -->"
 ENDGAME = "                     Congratulations! You beat the game!!!! \n\n                 You must be a really fantastic Zombie Killer!\n\n\n\n                  If you'd like to play again , just press: \n\n                              <-- ENTER --> \n\n\n\n                           Otherwise quit with:\n\n                               <-- ESC -->"
 INFOPOS = (50, 50)
-LEVELPOS = (WIDTH / 2, HEIGHT / 2)
+NEWLEVELPOS = (0,300)
+LEVELPOS = (450, 350)
 
 # Player settings
 PLAYER_HEALTH = 100
@@ -74,7 +76,6 @@ BULLET_DAMAGE = 10
 MOB_IMG = 'zombie1_hold.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
-KILLCOUNT = 0
 
 # Zombie
 MOB_HEALTH = 100
