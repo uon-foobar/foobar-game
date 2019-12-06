@@ -32,6 +32,7 @@ WALL_IMG = 'tileGreen_39.png'
 INTRO = "                       Welcome to The foobar. \n\n Your job is to move through the world killing zombies and finding powerups. \n\n The more levels of the world you pass through the higher your points will \n be and the harder the enemies get. \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n                       <--Press ENTER to begin. --> "
 NEWLEVEL = "                    PRESS ENTER TO CONTINUE TO THE NEXT LEVEL"
 DEAD = "                       OH NO YOU DIED !!!!!!!!!!!!!!!! \n\n\n                      If you want to START AGAIN: \n\n                                 <-- ENTER --> \n\n\n\n                      If you want to QUIT: \n\n                                  <-- ESC -->"
+ENDGAME = "                     Congratulations! You beat the game!!!! \n\n                 You must be a really fantastic Zombie Killer!\n\n\n\n                  If you'd like to play again , just press: \n\n                              <-- ENTER --> \n\n\n\n                           Otherwise quit with:\n\n                               <-- ESC -->"
 INFOPOS = (50, 50)
 LEVELPOS = (WIDTH / 2, HEIGHT / 2)
 
@@ -54,9 +55,9 @@ WEAPONS['pistol'] = {'bullet_speed': 500,
                      'damage': 10,
                      'bullet_size': 'lg',
                      'bullet_count': 1}
-WEAPONS['shotgun'] = {'bullet_speed': 400,
+WEAPONS['shotgun'] = {'bullet_speed': 500,
                       'bullet_lifetime': 500,
-                      'rate': 900,
+                      'rate': 500,
                       'kickback': 300,
                       'spread': 20,
                       'damage': 5,
