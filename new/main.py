@@ -9,7 +9,7 @@ from tilemap import *
 
 # HUD functions
 
-CURRENTMAP = 0
+
 
 
 def draw_player_health(surf, x, y, pct):
@@ -48,13 +48,17 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'img')
         map_folder = path.join(game_folder, 'maps')
         self.mapList = []
         for i in range(1, 5):
             self.mapList.append(
                 TiledMap(path.join(map_folder, 'level{}.tmx'.format(i))))
-        self.map = self.mapList[CURRENTMAP]
+        try:
+            self.map = self.mapList[CURRENTMAP]
+        except IndexError:
+            self.show_screen(ENDGAME,INFOPOS)
+            self.map = self.mapList[0]
+            
         self.load_data()
         self.restart = False
 
@@ -225,7 +229,7 @@ class Game:
                 if event.key == pg.K_h:
                     self.draw_debug = not self.draw_debug
 
-    def show_screen(self, text, pos):
+    def show_screen(self, text, pos, wait = False):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
             # 2D array where each row is a list of words.
             words = [word.split(' ') for word in text.splitlines()]
@@ -246,25 +250,38 @@ class Game:
 
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         while True:
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    quit()
-                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                    self.quit()
-                elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
-                    #intro = False
-                    return
             font = pg.font.SysFont("Courier New", 20)
             infoScreen.fill([50, 50, 50])
             blit_text(infoScreen, text,
                       pos, font, [230, 230, 230])
             pg.display.flip()
+            if wait:
+                pg.time.wait(1500)
+                return
+            else:
+                for event in pg.event.get():
+                    if event.type == pg.QUIT:
+                        quit()
+                    if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                        self.quit()
+                    elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
+                        #intro = False
+                        return
+            
 
 
 # create the game object
-Game().show_screen(INTRO, INFOPOS)
+CURRENTMAP = 0
+
 while True:
-    Game().show_screen("LEVEL {}".format(CURRENTMAP + 1), LEVELPOS)
-    g = Game()
-    g.new()
-    g.run()
+    Game().show_screen(INTRO, INFOPOS)
+    while True:
+        if CURRENTMAP == (len(Game().mapList)):
+            CURRENTMAP = 0
+            break
+        else:
+            Game().show_screen("LEVEL {}".format(CURRENTMAP + 1), LEVELPOS, True)
+            g = Game()
+            g.new()
+            g.run()
+        
