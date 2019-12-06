@@ -12,7 +12,7 @@ YELLOW = (255, 255, 0)
 BROWN = (106, 55, 5)
 CYAN = (0, 255, 255)
 
-#Audio
+# Audio
 
 
 # game settings
@@ -22,7 +22,8 @@ FPS = 60
 TITLE = "Foobar"
 BGCOLOR = BROWN
 
-MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx', 'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
+MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx',
+        'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
 NEXTLEVELCOINS = 2
 
 
@@ -34,11 +35,12 @@ WALL_IMG = 'tileGreen_39.png'
 
 # Load screen messages
 INTRO = "                         Welcome to The foobar. \n\n\n Your job is to move through the world killing zombies and finding powerups. \n\n Collect coins to move to the next level, each level will get slightly more \n difficult! \n\n Move with W/A/S/D or UP/DOWN/LEFT/RIGHT and shoot with SPACE . \n\n\n                     <-- Press ENTER to begin. --> "
-NEWLEVEL = "                      Wow! You collected {} coins!!!! \n\n\n                   You get to continue to the next level!\n\n                      <-- Press ENTER to continue. -->".format(NEXTLEVELCOINS)
+NEWLEVEL = "                      Wow! You collected {} coins!!!! \n\n\n                   You get to continue to the next level!\n\n                      <-- Press ENTER to continue. -->".format(
+    NEXTLEVELCOINS)
 DEAD = "                      !!!!!! OH NO YOU DIED !!!!!! \n\n\n\n                       If you want to START AGAIN: \n\n                      <-- Press ENTER to begin. --> \n\n\n                          If you want to QUIT: \n\n                           <-- Press ESC -->"
 ENDGAME = "                     Congratulations! You beat the game!!!! \n\n                 You must be a really fantastic Zombie Killer!\n\n\n\n                  If you'd like to play again , just press: \n\n                              <-- ENTER --> \n\n\n\n                           Otherwise quit with:\n\n                               <-- ESC -->"
 INFOPOS = (50, 50)
-NEWLEVELPOS = (0,300)
+NEWLEVELPOS = (0, 300)
 LEVELPOS = (450, 350)
 
 # Player settings
@@ -88,7 +90,7 @@ BULLET_DAMAGE = 10
 MOB_IMG = 'zombie1_hold.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
-
+SPLAT = 'splat red.png'
 # Zombie
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
@@ -110,9 +112,9 @@ ITEM_IMAGES = {'health': 'health_pack.png',
 HEALTH_PACK_AMOUNT = 20
 
 # Coins
-COIN_IMAGE_LIST = [(pg.image.load("img/coin_animation/Coin1.png")),\
-                   (pg.image.load("img/coin_animation/Coin2.png")),\
-                   (pg.image.load("img/coin_animation/Coin3.png")),\
-                   (pg.image.load("img/coin_animation/Coin4.png")),\
-                   (pg.image.load("img/coin_animation/Coin5.png")),\
+COIN_IMAGE_LIST = [(pg.image.load("img/coin_animation/Coin1.png")),
+                   (pg.image.load("img/coin_animation/Coin2.png")),
+                   (pg.image.load("img/coin_animation/Coin3.png")),
+                   (pg.image.load("img/coin_animation/Coin4.png")),
+                   (pg.image.load("img/coin_animation/Coin5.png")),
                    (pg.image.load("img/coin_animation/Coin6.png"))]
