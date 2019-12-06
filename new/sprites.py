@@ -25,6 +25,7 @@ def collide_with_walls(sprite, group, dir):
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
 
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -62,9 +63,9 @@ class Player(pg.sprite.Sprite):
 
     def shoot(self):
         if self.weapon == 'pistol':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
         if self.weapon == 'shotgun':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
 
         now = pg.time.get_ticks()
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
@@ -77,7 +78,7 @@ class Player(pg.sprite.Sprite):
                 spread = uniform(-WEAPONS[self.weapon]
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
-                
+
     def collect_coins(self):
         pg.mixer.Channel(2).play(pg.mixer.Sound('audio/coin_collect.wav'))
         self.coin_count += 1
@@ -97,7 +98,7 @@ class Player(pg.sprite.Sprite):
 
     def add_health(self, amount):
         pg.mixer.Channel(5).play(pg.mixer.Sound('audio/health_powerup.ogg'))
-        #pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
+        # pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
@@ -148,7 +149,8 @@ class Mob(pg.sprite.Sprite):
             self.game.player.killcount += 1
             pg.mixer.Sound.play(pg.mixer.Sound('audio/zombie_death.wav'))
             self.kill()
-            
+            self.game.map_img.blit(self.game.splat, self.pos - vec(32, 32))
+
     def draw_health(self):
         if self.health > 60:
             col = GREEN
@@ -252,12 +254,12 @@ class coins(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         #self.images = []
-        #self.images.append(pg.image.load("img/coin_animation/Coin1.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin2.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin3.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin4.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin5.png"))
-        #self.images.append(pg.image.load("img/coin_animation/Coin6.png"))
+        # self.images.append(pg.image.load("img/coin_animation/Coin1.png"))
+        # self.images.append(pg.image.load("img/coin_animation/Coin2.png"))
+        # self.images.append(pg.image.load("img/coin_animation/Coin3.png"))
+        # self.images.append(pg.image.load("img/coin_animation/Coin4.png"))
+        # self.images.append(pg.image.load("img/coin_animation/Coin5.png"))
+        # self.images.append(pg.image.load("img/coin_animation/Coin6.png"))
         self.index = 0
         self.image = COIN_IMAGE_LIST[self.index]
         #self.image = self.images[self.index]
@@ -268,7 +270,7 @@ class coins(pg.sprite.Sprite):
     def update(self):
         self.index += 1
         if self.index >= len(COIN_IMAGE_LIST):
-        #if self.index >= len(self.images):
+            # if self.index >= len(self.images):
             self.index = 0
         self.image = COIN_IMAGE_LIST[self.index]
         #self.image = self.images[self.index]

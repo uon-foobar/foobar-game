@@ -1,6 +1,6 @@
 
 import pygame as pg
-#pg.init()
+# pg.init()
 import sys
 import random
 from os import path
@@ -9,6 +9,8 @@ from sprites import *
 from tilemap import *
 
 # HUD functions
+
+
 def draw_player_health(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -26,18 +28,21 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, col, fill_rect)
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
+
 def display_counter(surf, x, y, count, img):
     font = pg.font.Font('freesansbold.ttf', 32)
     text = font.render('{}'.format(count), True, WHITE)
-    textRect = pg.Rect(x+35, y, 35, 35)
+    textRect = pg.Rect(x + 35, y, 35, 35)
     imgRect = pg.Rect(x, y, 35, 35)
     coinImg = pg.image.load(img)
     g.screen.blit(text, textRect)
     g.screen.blit(coinImg, imgRect)
-    
+
 #/////////////////////////////////////////////////////////////////////////////
-    
-#Game class: load_data, new, run, update, events, draw, draw_grid, 
+
+# Game class: load_data, new, run, update, events, draw, draw_grid,
+
+
 class Game:
     def __init__(self, mapIndex=0):
         pg.init()
@@ -52,8 +57,8 @@ class Game:
         try:
             self.map = self.mapList[CURRENTMAP]
         except IndexError:
-            self.show_screen(ENDGAME,INFOPOS)
-            self.map = self.mapList[0]  
+            self.show_screen(ENDGAME, INFOPOS)
+            self.map = self.mapList[0]
         self.load_data()
 
     def load_data(self):
@@ -81,6 +86,9 @@ class Game:
         for item in ITEM_IMAGES:
             self.item_images[item] = pg.image.load(
                 path.join(img_folder, ITEM_IMAGES[item])).convert_alpha()
+        self.splat = pg.image.load(
+            path.join(img_folder, SPLAT)).convert_alpha()
+        self.splat = pg.transform.scale(self.splat, (64, 64))
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -111,11 +119,12 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
 
-## Run class with music for the game level
+# Run class with music for the game level
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
-        pg.mixer.music.load('audio/game_song1.mp3') # edit for multiple game songs!
+        # edit for multiple game songs!
+        pg.mixer.music.load('audio/game_song1.mp3')
         pg.mixer.music.play(-1)
 
         while self.playing:
@@ -143,13 +152,15 @@ class Game:
             if hit.type == 'shotgun':
                 hit.kill()
 
-                #pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
-                
-                pg.mixer.Channel(4).play(pg.mixer.Sound('audio/coin_collect.wav'))
+                # pg.mixer.Sound.play(pg.mixer.Sound('audio/coin_collect.wav'))
+
+                pg.mixer.Channel(4).play(
+                    pg.mixer.Sound('audio/coin_collect.wav'))
                 self.player.weapon = 'shotgun'
 
         # mobs hit player and game ends on player death
-        hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
+        hits = pg.sprite.spritecollide(
+            self.player, self.mobs, False, collide_hit_rect)
         for hit in hits:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
@@ -159,11 +170,11 @@ class Game:
                 self.show_screen(DEAD, INFOPOS)
                 CURRENTMAP = 0
                 self.playing = False
-        
+
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
-            
-        #Make punching noise if mob has come into contact with player
+
+        # Make punching noise if mob has come into contact with player
         if pg.sprite.spritecollide(self.player, self.mobs, False, collided=None):
             pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
 
@@ -172,10 +183,11 @@ class Game:
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
         # for each mob that got hit subtract the health by bullets that hit
         for hit in hits:
-            hit.health -= WEAPONS[self.player.weapon]['damage'] * len(hits[hit])
+            hit.health -= WEAPONS[self.player.weapon]['damage'] * \
+                len(hits[hit])
             hit.vel = vec(0, 0)
 
-        #Event - Player picks up a coin
+        # Event - Player picks up a coin
         if pg.sprite.spritecollide(self.player, self.coins, True, collided=None):
             self.player.collect_coins()
 
@@ -183,7 +195,6 @@ class Game:
             self.show_screen(NEWLEVEL, NEWLEVELPOS)
             CURRENTMAP += 1
             self.playing = False
-
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -216,8 +227,10 @@ class Game:
         # HUD functions
         draw_player_health(self.screen, 10, 10,
                            self.player.health / PLAYER_HEALTH)
-        display_counter(self.screen,130,5,self.player.coin_count,"img/coin_animation/Coin1.png")
-        display_counter(self.screen,200,5,self.player.killcount, "img/zombie_kill.png")
+        display_counter(self.screen, 130, 5, self.player.coin_count,
+                        "img/coin_animation/Coin1.png")
+        display_counter(self.screen, 200, 5,
+                        self.player.killcount, "img/zombie_kill.png")
         pg.display.flip()
 
     def events(self):
@@ -231,7 +244,7 @@ class Game:
                 if event.key == pg.K_h:
                     self.draw_debug = not self.draw_debug
 
-    def show_screen(self, text, pos, wait = False):
+    def show_screen(self, text, pos, wait=False):
         def blit_text(surface, text, pos, font, color=pg.Color('black')):
             # 2D array where each row is a list of words.
             words = [word.split(' ') for word in text.splitlines()]
@@ -269,7 +282,7 @@ class Game:
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
                     #intro = False
                     return
-            
+
 
 
 # create the game object
@@ -286,4 +299,3 @@ while True:
             g = Game()
             g.new()
             g.run()
-        
