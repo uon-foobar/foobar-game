@@ -63,15 +63,22 @@ class Game:
         self.player_img = pg.image.load(
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
         self.bullet_images = {}
+        # standard pistol bullets
         self.bullet_images['lg'] = pg.image.load(
             path.join(img_folder, BULLET_IMG)).convert_alpha()
-        # small bullets is same img scaled down 10by10
+        # red bullets for the machine gun use a different png
+        self.bullet_images['rd'] = pg.image.load(
+            path.join(img_folder, BULLET_IMG2)).convert_alpha()
+        # small shot gun bullets are standard pistol bullets scaled down 10by10
         self.bullet_images['sm'] = pg.transform.scale(
             self.bullet_images['lg'], (10, 10))
+        #regular zombie img
         self.mob_img = pg.image.load(
             path.join(img_folder, MOB_IMG)).convert_alpha()
+        #big zombie img
         self.mob_img2 = pg.image.load(
             path.join(img_folder, MOB_IMG2)).convert_alpha()
+        #boss img
         self.mob_img3 = pg.image.load(
             path.join(img_folder, MOB_IMG3)).convert_alpha()
         self.wall_img = pg.image.load(
