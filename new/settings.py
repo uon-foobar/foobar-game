@@ -18,11 +18,9 @@ HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITLE = "Foobar"
 BGCOLOR = BROWN
-<<<<<<< HEAD
-NEXTLEVELCOINS = 1
-=======
+
 NEXTLEVELCOINS = 2
->>>>>>> temp1
+
 
 TILESIZE = 64
 GRIDWIDTH = WIDTH / TILESIZE
