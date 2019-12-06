@@ -57,20 +57,17 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
-<<<<<<< HEAD
+
             self.shoot()
 
-    def shoot(self):
-=======
-            
-            self.shoot()
+
 
     def shoot(self):
         if self.weapon == 'pistol':
                 pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
         if self.weapon == 'shotgun':
                 pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
->>>>>>> temp1
+
         now = pg.time.get_ticks()
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
             self.last_shot = now
@@ -82,10 +79,9 @@ class Player(pg.sprite.Sprite):
                 spread = uniform(-WEAPONS[self.weapon]
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
-<<<<<<< HEAD
-=======
+
                 
->>>>>>> temp1
+
 
     def update(self):
         self.get_keys()
