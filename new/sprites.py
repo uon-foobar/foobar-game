@@ -58,18 +58,19 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
-
             self.shoot()
 
     def shoot(self):
+        #Generates a sound for a particular gun when shooting
         if self.weapon == 'pistol':
             pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
         if self.weapon == 'shotgun':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
         if self.weapon == 'machinegun':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg')) ### Richard
-
-
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/machine_gun.wav'))
+            
+        
+        
         now = pg.time.get_ticks()
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
             self.last_shot = now
@@ -82,9 +83,6 @@ class Player(pg.sprite.Sprite):
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
 
-    def collect_coins(self):
-        pg.mixer.Channel(2).play(pg.mixer.Sound('audio/coin_collect.wav'))
-        self.coin_count += 1
 
     def update(self):
         self.get_keys()
@@ -98,13 +96,38 @@ class Player(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
+        if pg.sprite.spritecollide(self, self.game.mobs, False, collided=None):
+            pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
+        self.item_pickup()
+        
 
     def add_health(self, amount):
         pg.mixer.Channel(5).play(pg.mixer.Sound('audio/health_powerup.ogg'))
-        # pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
+            
+    def item_pickup(self):
+        hits = pg.sprite.spritecollide(self, self.game.items, False)
+        for hit in hits:
+            if hit.type == 'health' and self.health < PLAYER_HEALTH:
+                hit.kill()
+                self.add_health(HEALTH_PACK_AMOUNT)
+            if hit.type == 'shotgun':
+                pg.mixer.Channel(4).play(
+                    pg.mixer.Sound('audio/coin_collect.wav'))
+                hit.kill()
+                self.weapon = 'shotgun'
+            if hit.type == 'machinegun':
+                pg.mixer.Channel(4).play(
+                    pg.mixer.Sound('audio/coin_collect.wav'))
+                hit.kill()
+                self.weapon = 'machinegun'
+        
+        if pg.sprite.spritecollide(self, self.game.coins, True, collided=None):
+            pg.mixer.Channel(2).play(pg.mixer.Sound(COIN_COLLECT))
+            self.coin_count += 1
+        
 
 
 class Mob(pg.sprite.Sprite):
@@ -127,27 +150,30 @@ class Mob(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
+        self.target = game.player
         self.health = self.HEALTH
 
     def update(self):
-        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
-        if self.TYPE == 1:
-            self.image = pg.transform.rotate(self.game.mob_img, self.rot)
-        if self.TYPE == 2:
-            self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
-        if self.TYPE == 3:
-            self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
-        # self.rect = self.image.get_rect()
-        self.rect.center = self.pos
-        self.acc = vec(self.SPEED, 0).rotate(-self.rot)
-        self.acc += self.vel * -1
-        self.vel += self.acc * self.game.dt
-        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
-        self.hit_rect.centerx = self.pos.x
-        collide_with_walls(self, self.game.walls, 'x')
-        self.hit_rect.centery = self.pos.y
-        collide_with_walls(self, self.game.walls, 'y')
-        self.rect.center = self.hit_rect.center
+        target_distance = self.target.pos - self.pos
+        if target_distance.length_squared() < ATTACK_RADIUS**2:
+            self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+            if self.TYPE == 1:
+                self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+            if self.TYPE == 2:
+                self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
+            if self.TYPE == 3:
+                self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
+            # self.rect = self.image.get_rect()
+            self.rect.center = self.pos
+            self.acc = vec(self.SPEED, 0).rotate(-self.rot)
+            self.acc += self.vel * -1
+            self.vel += self.acc * self.game.dt
+            self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
+            self.hit_rect.centerx = self.pos.x
+            collide_with_walls(self, self.game.walls, 'x')
+            self.hit_rect.centery = self.pos.y
+            collide_with_walls(self, self.game.walls, 'y')
+            self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.game.player.killcount += 1
             pg.mixer.Sound.play(pg.mixer.Sound('audio/zombie_death.wav'))

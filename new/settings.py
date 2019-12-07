@@ -14,7 +14,12 @@ CYAN = (0, 255, 255)
 TEXTGREY = [204,204,204]
 
 # Audio
+GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
+              'audio/level1.mp3', 'audio/level2.mp3',
+              'audio/level1.mp3', 'audio/level2.mp3',
+              'audio/level1.mp3', 'audio/level2.mp3']
 
+COIN_COLLECT = 'audio/coin_collect.wav'
 
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
@@ -26,6 +31,7 @@ BGCOLOR = BROWN
 MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx',
         'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
 NEXTLEVELCOINS = 1
+
 
 
 TILESIZE = 64
@@ -74,13 +80,13 @@ WEAPONS['shotgun'] = {'bullet_speed': 500,
                       'bullet_size': 'sm',
                       'bullet_count': 12}
 WEAPONS['machinegun'] = {'bullet_speed': 500,
-                      'bullet_lifetime': 1500,
-                      'rate': 150,
-                      'kickback': 300,
-                      'spread': 5,
-                      'damage': 10,
-                      'bullet_size': 'rd',
-                      'bullet_count': 1}
+                         'bullet_lifetime': 1500,
+                         'rate': 150,
+                         'kickback': 300,
+                         'spread': 5,
+                         'damage': 10,
+                         'bullet_size': 'rd',
+                         'bullet_count': 1}
 BULLET_SPEED = 500
 BULLET_LIFETIME = 1000
 BULLET_RATE = 150
@@ -93,6 +99,7 @@ MOB_IMG = 'zombie1_hold.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 SPLAT = 'splat red.png'
+ATTACK_RADIUS = 300
 # Zombie
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
@@ -111,7 +118,7 @@ MOB_HEALTH3 = 300
 # Items
 ITEM_IMAGES = {'health': 'health_pack.png',
                'shotgun': 'shotgun.png',
-                'machinegun': 'machinegun.png',}
+               'machinegun': 'machinegun.png', }
 HEALTH_PACK_AMOUNT = 20
 
 # Coins

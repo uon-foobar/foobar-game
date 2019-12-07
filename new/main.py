@@ -110,6 +110,8 @@ class Game:
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
         self.coins = pg.sprite.Group()
+        
+        #Loading of game objects from map file
         for tile_object in self.map.tmxdata.objects:
             obj_center = vec(tile_object.x + tile_object.width / 2,
                              tile_object.y + tile_object.height / 2)
@@ -136,8 +138,9 @@ class Game:
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
-        # edit for multiple game songs!
-        pg.mixer.music.load('audio/game_song1.mp3')
+        
+        #Loads music for specific level from GAME_SONGS list
+        pg.mixer.music.load(GAME_SONGS[CURRENTMAP])
         pg.mixer.music.play(-1)
         
         while self.playing:
@@ -155,25 +158,7 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
-        # player hits an item
-        # we use false instead of true cause we dont want player to 'pick' up the health at 100hp
-        hits = pg.sprite.spritecollide(self.player, self.items, False)
-        for hit in hits:
-            if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
-                hit.kill()
-                self.player.add_health(HEALTH_PACK_AMOUNT)
-            if hit.type == 'shotgun':
-                pg.mixer.Channel(4).play(
-                    pg.mixer.Sound('audio/coin_collect.wav'))
-                hit.kill()
-                self.player.weapon = 'shotgun'
-
-            if hit.type == 'machinegun':
-                pg.mixer.Channel(4).play(
-                    pg.mixer.Sound('audio/coin_collect.wav'))
-                hit.kill()
-                self.player.weapon = 'machinegun'
-
+        
         # mobs hit player and game ends on player death
         hits = pg.sprite.spritecollide(
             self.player, self.mobs, False, collide_hit_rect)
@@ -181,18 +166,12 @@ class Game:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
-                pg.mixer.music.load('audio/death.ogg')
-                pg.mixer.music.play(0)
                 self.intro_screen(self.death_img)
                 CURRENTMAP = 0
                 self.playing = False
 
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
-
-        # Make punching noise if mob has come into contact with player
-        if pg.sprite.spritecollide(self.player, self.mobs, False, collided=None):
-            pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
 
         # bullets hit mobs
         # hits is a dict each key of dict a mob that got hit, list of bullets that hits the mob
@@ -201,12 +180,7 @@ class Game:
         for hit in hits:
             hit.health -= WEAPONS[self.player.weapon]['damage'] * \
                 len(hits[hit])
-            hit.vel = vec(0, 0)
-
-        # Event - Player picks up a coin
-        if pg.sprite.spritecollide(self.player, self.coins, True, collided=None):
-            self.player.collect_coins()
-        
+            hit.vel = vec(0, 0)      
         # Enough Coins picked up to change level.
         if self.player.coin_count == NEXTLEVELCOINS:
             self.intro_screen(self.nextlevel_img, NEXTLEVELPOS, True)
@@ -241,6 +215,7 @@ class Game:
                              self.camera.apply_rect(wall.rect), 1)
 
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
+       
         # HUD functions
         draw_player_health(self.screen, 10, 10,
                            self.player.health / PLAYER_HEALTH)
@@ -267,6 +242,9 @@ class Game:
     #   - can render text from the coin/coins to chenge level data 
     def intro_screen(self, img, pos = (0,0), responsive = False, wait = False):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
+        # menu music
+        pg.mixer.music.load('audio/menu_song.mp3')
+        pg.mixer.music.play(-1)
         while True:
             infoScreen.blit(img, (0,0))
             # displays the coins require for next level on the change leevel screen
