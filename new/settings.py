@@ -9,9 +9,11 @@ HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 FPS = 60
+WALL_IMG = 'tileGreen_39.png'
 NEXTLEVELCOINS = 5 # This is the number of coins you need to collect to move to the next level.
 
 # define some colors (R, G, B)
+WHITE = (255,255,255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
@@ -38,7 +40,7 @@ MOB_PUNCH_CHANNEL = 3
 WEAPON_FIRE_CHANNEL = 7
 
 # Map list, can re-order them
-MAPS = ['level4.tmx', 'level1.tmx', 'level2.tmx', 'level3.tmx', #add 'level9.tmx'
+MAPS = ['level4.tmx', 'level1.tmx', 'level2.tmx', 'level3.tmx', 'level9.tmx',
         'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
 
 # Load screen messages
