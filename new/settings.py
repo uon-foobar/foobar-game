@@ -19,7 +19,20 @@ GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3']
 
+MENU_SONG = 'audio/menu_song.mp3'
+
 COIN_COLLECT = 'audio/coin_collect.wav'
+ZOMBIE_DEATH = 'audio/zombie_death.wav'
+HEALTH_POWERUP = 'audio/health_powerup.ogg'
+PISTOL_FIRED = 'audio/pistol.ogg'
+SHOTGUN_FIRED = 'audio/shotgun.ogg'
+MACHINEGUN_FIRED = 'audio/machine_gun.wav'
+MOB_PUNCH_SOUND = 'audio/punch.wav'
+
+# Sound Channels
+ITEM_COLLECT_CHANNEL = 4
+MOB_PUNCH_CHANNEL = 3
+WEAPON_FIRE_CHANNEL = 7
 
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
