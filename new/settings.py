@@ -9,7 +9,7 @@ HEIGHT = 768
 FPS = 60
 
 # Number of coins you need to collect to move to the next level.
-NEXTLEVELCOINS = 1
+NEXTLEVELCOINS = 5
 
 # define some colors (R, G, B)
 WHITE = (255, 255, 255)
