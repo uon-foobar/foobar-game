@@ -62,6 +62,7 @@ class Player(pg.sprite.Sprite):
 
     def shoot(self):
         #Generates a sound for a particular gun when shooting
+        #All are fired on their own channel 
         if self.weapon == 'pistol':
             pg.mixer.Channel(WEAPON_FIRE_CHANNEL).play(pg.mixer.Sound(PISTOL_FIRED))
         if self.weapon == 'shotgun':
@@ -119,12 +120,12 @@ class Player(pg.sprite.Sprite):
                 self.add_health(HEALTH_PACK_AMOUNT)
             if hit.type == 'shotgun':
                 pg.mixer.Channel(ITEM_COLLECT_CHANNEL).play(
-                    pg.mixer.Sound(COIN_COLLECT))
+                    pg.mixer.Sound(GUN_PICKUP))
                 hit.kill()
                 self.weapon = 'shotgun'
             if hit.type == 'machinegun':
                 pg.mixer.Channel(ITEM_COLLECT_CHANNEL).play(
-                    pg.mixer.Sound(COIN_COLLECT))
+                    pg.mixer.Sound(GUN_PICKUP))
                 hit.kill()
                 self.weapon = 'machinegun'
         
