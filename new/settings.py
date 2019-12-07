@@ -18,6 +18,8 @@ GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3']
 
+COIN_COLLECT = 'audio/coin_collect.wav'
+
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
 HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12

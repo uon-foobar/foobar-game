@@ -58,17 +58,19 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         if keys[pg.K_SPACE]:
-
             self.shoot()
 
     def shoot(self):
+        #Generates a sound for a particular gun when shooting
         if self.weapon == 'pistol':
             pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
         if self.weapon == 'shotgun':
             pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
         if self.weapon == 'machinegun':
             pg.mixer.Sound.play(pg.mixer.Sound('audio/machine_gun.wav'))
-
+            
+        
+        
         now = pg.time.get_ticks()
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
             self.last_shot = now
@@ -81,9 +83,6 @@ class Player(pg.sprite.Sprite):
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
 
-    def collect_coins(self):
-        pg.mixer.Channel(2).play(pg.mixer.Sound('audio/coin_collect.wav'))
-        self.coin_count += 1
 
     def update(self):
         self.get_keys()
@@ -97,16 +96,38 @@ class Player(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
-
         if pg.sprite.spritecollide(self, self.game.mobs, False, collided=None):
             pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
+        self.item_pickup()
+        
 
     def add_health(self, amount):
         pg.mixer.Channel(5).play(pg.mixer.Sound('audio/health_powerup.ogg'))
-        # pg.mixer.Sound.play(pg.mixer.Sound('audio/health_powerup.ogg'))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
+            
+    def item_pickup(self):
+        hits = pg.sprite.spritecollide(self, self.game.items, False)
+        for hit in hits:
+            if hit.type == 'health' and self.health < PLAYER_HEALTH:
+                hit.kill()
+                self.add_health(HEALTH_PACK_AMOUNT)
+            if hit.type == 'shotgun':
+                pg.mixer.Channel(4).play(
+                    pg.mixer.Sound('audio/coin_collect.wav'))
+                hit.kill()
+                self.weapon = 'shotgun'
+            if hit.type == 'machinegun':
+                pg.mixer.Channel(4).play(
+                    pg.mixer.Sound('audio/coin_collect.wav'))
+                hit.kill()
+                self.weapon = 'machinegun'
+        
+        if pg.sprite.spritecollide(self, self.game.coins, True, collided=None):
+            pg.mixer.Channel(2).play(pg.mixer.Sound(COIN_COLLECT))
+            self.coin_count += 1
+        
 
 
 class Mob(pg.sprite.Sprite):
