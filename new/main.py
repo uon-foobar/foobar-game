@@ -7,7 +7,6 @@ from tilemap import *
 
 
 # HUD functions
-
 # Draws the healthbar for the player
 def draw_player_health(surf, x, y, pct):
     if pct < 0:
@@ -77,25 +76,26 @@ class Game:
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
         # Loading bullet images
         self.bullet_images = {}
-        self.bullet_images['lg'] = pg.image.load(
+        self.bullet_images['lg'] = pg.image.load( # pistol
             path.join(img_folder, BULLET_IMG)).convert_alpha()
-        self.bullet_images['rd'] = pg.image.load(
+        self.bullet_images['rd'] = pg.image.load( # machinegun
             path.join(img_folder, BULLET_IMG2)).convert_alpha()
-        self.bullet_images['sm'] = pg.transform.scale(
+        self.bullet_images['sm'] = pg.transform.scale( #shotgun
             self.bullet_images['lg'], (10, 10))
         # Loading mob images
-        self.mob_img = pg.image.load(
+        self.mob_img = pg.image.load( # Zombie
             path.join(img_folder, MOB_IMG)).convert_alpha()
-        self.mob_img2 = pg.image.load(
+        self.mob_img2 = pg.image.load( # BigZombie
             path.join(img_folder, MOB_IMG2)).convert_alpha()
-        self.mob_img3 = pg.image.load(
+        self.mob_img3 = pg.image.load( # Boss
             path.join(img_folder, MOB_IMG3)).convert_alpha()
         # Loading Item images
         self.item_images = {}
         for item in ITEM_IMAGES:
-            self.item_images[item] = pg.image.load(
+            self.item_images[item] = pg.image.load( 
                 path.join(img_folder, ITEM_IMAGES[item])).convert_alpha()
-        self.splat = pg.image.load(
+        # Loading bloodsplat
+        self.splat = pg.image.load( 
             path.join(img_folder, SPLAT)).convert_alpha()
         self.splat = pg.transform.scale(self.splat, (64, 64))
 
@@ -219,8 +219,6 @@ class Game:
                     self.quit()
     
     # Function to diplay an information screen:
-    #   - needs an image to display
-    #   - can render text from the coin/coins to chenge level data 
     def intro_screen(self, img, pos = (0,0), responsive = False, wait = False):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         # menu music
@@ -254,6 +252,7 @@ class Game:
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
                     return
 
+#//////////////////////////////////////////////////////////////////////////////
 
 # Running the game
 # start from the first map as CURRENTMAP                   

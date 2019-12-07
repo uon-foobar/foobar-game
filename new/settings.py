@@ -4,20 +4,19 @@ vec = pg.math.Vector2
 # Basic Tile info
 TITLE = "Foobar"
 TILESIZE = 64
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
-GRIDWIDTH = WIDTH / TILESIZE
-GRIDHEIGHT = HEIGHT / TILESIZE
+WIDTH = 1024
+HEIGHT = 768
 FPS = 60
-WALL_IMG = 'tileGreen_39.png'
-NEXTLEVELCOINS = 5 # This is the number of coins you need to collect to move to the next level.
+
+# Number of coins you need to collect to move to the next level.
+NEXTLEVELCOINS = 5 
 
 # define some colors (R, G, B)
 WHITE = (255,255,255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
-TEXTGREY = [204,204,204]
+TEXTGREY = (204,204,204)
 
 # Audio
 GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
