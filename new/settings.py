@@ -13,7 +13,10 @@ BROWN = (106, 55, 5)
 CYAN = (0, 255, 255)
 
 # Audio
-
+GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3', 
+              'audio/level1.mp3', 'audio/level2.mp3',
+              'audio/level1.mp3', 'audio/level2.mp3', 
+              'audio/level1.mp3', 'audio/level2.mp3']
 
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
@@ -24,6 +27,7 @@ BGCOLOR = BROWN
 
 MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx',
         'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
+
 NEXTLEVELCOINS = 2
 
 
