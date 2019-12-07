@@ -65,10 +65,9 @@ class Player(pg.sprite.Sprite):
         if self.weapon == 'pistol':
             pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg'))
         if self.weapon == 'shotgun':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
         if self.weapon == 'machinegun':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/machine_gun.wav'))
-
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/machine_gun.wav'))
 
         now = pg.time.get_ticks()
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
@@ -98,7 +97,7 @@ class Player(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
-        
+
         if pg.sprite.spritecollide(self, self.game.mobs, False, collided=None):
             pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
 
@@ -130,30 +129,33 @@ class Mob(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
+        self.target = game.player
         self.health = self.HEALTH
 
     def update(self):
-        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
-        if self.TYPE == 1:
-            self.image = pg.transform.rotate(self.game.mob_img, self.rot)
-        if self.TYPE == 2:
-            self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
-        if self.TYPE == 3:
-            self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
-        # self.rect = self.image.get_rect()
-        self.rect.center = self.pos
-        self.acc = vec(self.SPEED, 0).rotate(-self.rot)
-        self.acc += self.vel * -1
-        self.vel += self.acc * self.game.dt
-        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
-        self.hit_rect.centerx = self.pos.x
-        collide_with_walls(self, self.game.walls, 'x')
-        self.hit_rect.centery = self.pos.y
-        collide_with_walls(self, self.game.walls, 'y')
-        self.rect.center = self.hit_rect.center
+        target_distance = self.target.pos - self.pos
+        if target_distance.length_squared() < ATTACK_RADIUS**2:
+            self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+            if self.TYPE == 1:
+                self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+            if self.TYPE == 2:
+                self.image = pg.transform.rotate(self.game.mob_img2, self.rot)
+            if self.TYPE == 3:
+                self.image = pg.transform.rotate(self.game.mob_img3, self.rot)
+            # self.rect = self.image.get_rect()
+            self.rect.center = self.pos
+            self.acc = vec(self.SPEED, 0).rotate(-self.rot)
+            self.acc += self.vel * -1
+            self.vel += self.acc * self.game.dt
+            self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
+            self.hit_rect.centerx = self.pos.x
+            collide_with_walls(self, self.game.walls, 'x')
+            self.hit_rect.centery = self.pos.y
+            collide_with_walls(self, self.game.walls, 'y')
+            self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.game.player.killcount += 1
-            pg.mixer.Channel(6).play(pg.mixer.Sound('audio/zombie_death.wav'))
+            pg.mixer.Sound.play(pg.mixer.Sound('audio/zombie_death.wav'))
             self.kill()
             self.game.map_img.blit(self.game.splat, self.pos - vec(32, 32))
 
