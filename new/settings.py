@@ -9,28 +9,28 @@ HEIGHT = 768
 FPS = 60
 
 # Number of coins you need to collect to move to the next level.
-NEXTLEVELCOINS = 5 
+NEXTLEVELCOINS = 1
 
 # define some colors (R, G, B)
-WHITE = (255,255,255)
+WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
-TEXTGREY = (204,204,204)
+TEXTGREY = (204, 204, 204)
 
 # Audio
-#Level Songs = list index+1 defines the song played in a loop on that level
-GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
-              'audio/level1.mp3', 'audio/level2.mp3',
-              'audio/level1.mp3', 'audio/level2.mp3',
-              'audio/level1.mp3', 'audio/level2.mp3',
-              'audio/level1.mp3']
+# Level Songs = list index+1 defines the song played in a loop on that level
+GAME_SONGS = ['audio/level1.wav', 'audio/level2.wav',
+              'audio/level3.wav', 'audio/level4.wav',
+              'audio/level5.wav', 'audio/level6.wav',
+              'audio/level7.wav', 'audio/level8.wav',
+              'audio/level9.wav']
 
-#MENU_SONG - Defines the song played on the menu screen
+# MENU_SONG - Defines the song played on the menu screen
 MENU_SONG = 'audio/menu_song.mp3'
 
 
-#Sounds for collisions, gunfire etc.
+# Sounds for collisions, gunfire etc.
 COIN_COLLECT = 'audio/coin_collect.wav'
 ZOMBIE_DEATH = 'audio/zombie_death.wav'
 HEALTH_POWERUP = 'audio/health_powerup.ogg'
@@ -41,7 +41,7 @@ MOB_PUNCH_SOUND = 'audio/punch.wav'
 GUN_PICKUP = 'audio/gun_pickup.wav'
 
 # Sound Channels - Different sounds must be on different channels if they are
-#to be played concurrently
+# to be played concurrently
 ITEM_COLLECT_CHANNEL = 4
 MOB_PUNCH_CHANNEL = 3
 WEAPON_FIRE_CHANNEL = 7
@@ -57,16 +57,16 @@ LEVEL_IMG = 'level.png'
 NEXTLEVEL_IMG = 'nextlevel.png'
 ENDGAME_IMG = 'endgame.png'
 # the two positions for the responsive printing to the screen for the menus.
-NEXTLEVELPOS = (680,205)
-LEVELPOS = (585,295)
+NEXTLEVELPOS = (680, 205)
+LEVELPOS = (585, 295)
 
 # Player settings
 PLAYER_HEALTH = 100
 PLAYER_SPEED = 280
-PLAYER_ROT_SPEED = 200 # rotation speed of the player as he moves
-PLAYER_IMG = 'manBlue_gun.png' 
-PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35) # hitbox
-BARREL_OFFSET = vec(30, 10) # position of the gun barrel on the player image
+PLAYER_ROT_SPEED = 200  # rotation speed of the player as he moves
+PLAYER_IMG = 'manBlue_gun.png'
+PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)  # hitbox
+BARREL_OFFSET = vec(30, 10)  # position of the gun barrel on the player image
 
 # Gun settings
 BULLET_IMG = 'bullet.png'
@@ -96,11 +96,11 @@ WEAPONS['machinegun'] = {'bullet_speed': 500,
                          'damage': 10,
                          'bullet_size': 'rd',
                          'bullet_count': 1}
-BULLET_SPEED = 500 
-BULLET_LIFETIME = 1000 # bullet lasts for 1 second
-BULLET_RATE = 150 # how fast it shoots
-KICKBACK = 100 # how far the player is pushed back
-GUN_SPREAD = 5 # how much angle the bullet spreads from the barrel
+BULLET_SPEED = 500
+BULLET_LIFETIME = 1000  # bullet lasts for 1 second
+BULLET_RATE = 150  # how fast it shoots
+KICKBACK = 100  # how far the player is pushed back
+GUN_SPREAD = 5  # how much angle the bullet spreads from the barrel
 BULLET_DAMAGE = 10
 
 # Mob settings
@@ -132,10 +132,20 @@ ITEM_IMAGES = {'health': 'health_pack.png',
 HEALTH_PACK_AMOUNT = 20
 
 # Coins list - Contains a list of snapshots of a coin rotating
-#Iterated through by the coin class to showw a coin rotating
-COIN_IMAGE_LIST = [(pg.image.load("img/coin_animation/Coin1.png")),
-                   (pg.image.load("img/coin_animation/Coin2.png")),
-                   (pg.image.load("img/coin_animation/Coin3.png")),
-                   (pg.image.load("img/coin_animation/Coin4.png")),
-                   (pg.image.load("img/coin_animation/Coin5.png")),
-                   (pg.image.load("img/coin_animation/Coin6.png"))]
+# Iterated through by the coin class to showw a coin rotating
+COIN_IMAGE_LIST = [(pg.image.load("img/coin_animation/1.png")),
+                   (pg.image.load("img/coin_animation/2.png")),
+                   (pg.image.load("img/coin_animation/3.png")),
+                   (pg.image.load("img/coin_animation/4.png")),
+                   (pg.image.load("img/coin_animation/5.png")),
+                   (pg.image.load("img/coin_animation/6.png")),
+                   (pg.image.load("img/coin_animation/7.png")),
+                   (pg.image.load("img/coin_animation/8.png")),
+                   (pg.image.load("img/coin_animation/9.png")),
+                   (pg.image.load("img/coin_animation/10.png")),
+                   (pg.image.load("img/coin_animation/11.png")),
+                   (pg.image.load("img/coin_animation/12.png")),
+                   (pg.image.load("img/coin_animation/13.png")),
+                   (pg.image.load("img/coin_animation/14.png")),
+                   (pg.image.load("img/coin_animation/15.png")),
+                   (pg.image.load("img/coin_animation/16.png"))]
