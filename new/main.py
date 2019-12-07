@@ -1,6 +1,5 @@
 
 import pygame as pg
-# pg.init()
 import sys
 import random
 from os import path
@@ -57,15 +56,20 @@ class Game:
         try:
             self.map = self.mapList[CURRENTMAP]
         except IndexError:
-            self.show_screen(ENDGAME, INFOPOS)
             self.map = self.mapList[0]
+            self.load_data()
+            self.intro_screen(self.endgame_img)
         self.load_data()
-
+        
     def load_data(self):
         img_folder = path.join(self.game_folder, 'img')
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
         self.intro_img = pg.image.load(path.join(img_folder, INTRO_IMG)).convert_alpha()
+        self.death_img = pg.image.load(path.join(img_folder, DEATH_IMG)).convert_alpha()
+        self.level_img = pg.image.load(path.join(img_folder, LEVEL_IMG)).convert_alpha()
+        self.nextlevel_img = pg.image.load(path.join(img_folder, NEXTLEVEL_IMG)).convert_alpha()
+        self.endgame_img = pg.image.load(path.join(img_folder, ENDGAME_IMG)).convert_alpha()
         self.player_img = pg.image.load(
             path.join(img_folder, PLAYER_IMG)).convert_alpha()
         self.bullet_images = {}
@@ -126,6 +130,7 @@ class Game:
                 coins(self, tile_object.x, tile_object.y)
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
+        
 
 # Run class with music for the game level
     def run(self):
@@ -134,7 +139,7 @@ class Game:
         # edit for multiple game songs!
         pg.mixer.music.load('audio/game_song1.mp3')
         pg.mixer.music.play(-1)
-
+        
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000.0  # fix for Python 2.x
             self.events()
@@ -178,7 +183,7 @@ class Game:
             if self.player.health <= 0:
                 pg.mixer.music.load('audio/death.ogg')
                 pg.mixer.music.play(0)
-                self.show_screen(DEAD, INFOPOS)
+                self.intro_screen(self.death_img)
                 CURRENTMAP = 0
                 self.playing = False
 
@@ -201,9 +206,10 @@ class Game:
         # Event - Player picks up a coin
         if pg.sprite.spritecollide(self.player, self.coins, True, collided=None):
             self.player.collect_coins()
-
+        
+        # Enough Coins picked up to change level.
         if self.player.coin_count == NEXTLEVELCOINS:
-            self.show_screen(NEWLEVEL, NEWLEVELPOS)
+            self.intro_screen(self.nextlevel_img, NEXTLEVELPOS, True)
             CURRENTMAP += 1
             self.playing = False
 
@@ -254,51 +260,33 @@ class Game:
                     self.quit()
                 if event.key == pg.K_h:
                     self.draw_debug = not self.draw_debug
-
-    def show_screen(self, text, pos, wait=False):
-        def blit_text(surface, text, pos, font, color=pg.Color('white')):
-            # 2D array where each row is a list of words.
-            words = [word.split(' ') for word in text.splitlines()]
-            space = font.size(' ')[0]  # The width of a space.
-            max_width, max_height = surface.get_size()
-            x, y = pos
-            for line in words:
-                for word in line:
-                    word_surface = font.render(word, 0, color)
-                    word_width, word_height = word_surface.get_size()
-                    if x + word_width >= max_width:
-                        x = pos[0]  # Reset the x.
-                        y += word_height  # Start on new row.
-                    surface.blit(word_surface, (x, y))
-                    x += word_width + space
-                x = pos[0]  # Reset the x.
-                y += word_height  # Start on new row.
-
+    
+    
+    # Function to diplay an information screen:
+    #   - needs an image to display
+    #   - can render text from the coin/coins to chenge level data 
+    def intro_screen(self, img, pos = (0,0), responsive = False, wait = False):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         while True:
-            font = pg.font.SysFont("Courier New", 20)
-            infoScreen.fill([50, 50, 50])
-            blit_text(infoScreen, text,
-                      pos, font)
-            pg.display.flip()
+            infoScreen.blit(img, (0,0))
+            # displays the coins require for next level on the change leevel screen
+            if responsive:
+                font = pg.font.SysFont("Courier New", 55)
+                font.set_bold(True)
+                text = font.render(str(NEXTLEVELCOINS),False, TEXTGREY)
+                infoScreen.blit(text, pos)
+            # displays the level number and has a pause rather than wait for player input
             if wait:
-                pg.time.wait(1500)
+                font = pg.font.SysFont("Courier New", 75)
+                font.set_bold(True)
+                text = font.render(str(CURRENTMAP + 1),False, TEXTGREY)
+                infoScreen.blit(text, pos)
+                pg.display.flip()
+                pg.time.wait(1000)
                 return
-
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    self.quit()
-                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                    self.quit()
-                elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
-                    #intro = False
-                    return
-   
-    def intro_screen(self):
-        infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
-        while True:
-            infoScreen.blit(self.intro_img, (0,0))
             pg.display.flip()
+            
+            # The controls for the menu screen : ENTER to go, ESC to quit
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
@@ -309,17 +297,21 @@ class Game:
                     return
 
 
-# create the game object
-CURRENTMAP = 0
 
+# running the game
+# start from the first map as CURRENTMAP                   
+CURRENTMAP = 0
 while True:
-    Game().intro_screen()
+    # begin with the introduction menu
+    Game().intro_screen(Game().intro_img)
     while True:
+        # if the end of the maplist is reached, set the map back to zero and start the game loop again.
         if CURRENTMAP == (len(Game().mapList)):
             CURRENTMAP = 0
             break
         else:
-            Game().show_screen("LEVEL {}".format(CURRENTMAP + 1), LEVELPOS, True)
+            # generate a new game object, intialise the game, run the game
+            Game().intro_screen(Game().level_img, LEVELPOS, False, True)
             g = Game()
             g.new()
             g.run()
