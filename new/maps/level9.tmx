@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="88">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
-  <image source="foobar-game-master/foobar-game-master/new/img/spritesheet_tiles.png" width="1988" height="1470"/>
+  <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
  <layer name="Ground" width="50" height="30">
   <data encoding="csv">
@@ -173,4 +173,92 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="obstacles">
+  <object id="1" x="768" y="0" width="64"/>
+  <object id="2" name="wall" x="0" y="1856" width="2752" height="64"/>
+  <object id="3" name="wall" x="0" y="1792" width="2624"/>
+  <object id="4" name="wall" x="0" y="1728" width="1920" height="64"/>
+  <object id="5" name="wall" x="0" y="1664" width="1792"/>
+  <object id="6" name="wall" x="0" y="1280" width="960" height="384"/>
+  <object id="7" name="wall" x="960" y="1344" width="64" height="320"/>
+  <object id="8" name="wall" x="1024" y="1408" width="64" height="256"/>
+  <object id="9" name="wall" x="1088" y="1536" width="64" height="128"/>
+  <object id="10" name="wall" x="1152" y="1600" width="128" height="64"/>
+  <object id="11" name="wall" x="0" y="832" width="1472" height="64"/>
+  <object id="12" name="wall" x="0" y="1216" width="1472" height="64"/>
+  <object id="13" name="wall" x="0" y="320" width="192" height="512"/>
+  <object id="14" name="wall" x="192" y="384" width="384" height="448"/>
+  <object id="15" name="wall" x="576" y="448" width="128" height="384"/>
+  <object id="16" name="wall" x="704" y="512" width="128" height="192"/>
+  <object id="17" name="wall" x="704" y="704" width="64" height="64"/>
+  <object id="18" name="wall" x="768" y="0" width="64" height="448"/>
+  <object id="19" name="wall" x="832" y="384" width="2112" height="64"/>
+  <object id="20" name="wall" x="1344" y="0" width="64" height="128"/>
+  <object id="21" name="wall" x="832" y="128" width="192" height="128"/>
+  <object id="22" name="wall" x="1024" y="64" width="128" height="256"/>
+  <object id="23" name="wall" x="846.667" y="80" width="36" height="32"/>
+  <object id="24" name="wall" x="845.333" y="268" width="36" height="46.6667"/>
+  <object id="25" name="wall" x="1344" y="192" width="64" height="192"/>
+  <object id="26" name="wall" x="1920" y="192" width="64" height="192"/>
+  <object id="27" name="wall" x="1920" y="0" width="64" height="128"/>
+  <object id="28" name="wall" x="2624" y="0" width="64" height="128"/>
+  <object id="29" name="wall" x="2624" y="192" width="64" height="192"/>
+  <object id="30" name="wall" x="3008" y="384" width="192" height="64"/>
+  <object id="31" name="wall" x="3008" y="832" width="192" height="64"/>
+  <object id="32" name="wall" x="2688" y="832" width="256" height="64"/>
+  <object id="33" name="wall" x="2624" y="448" width="64" height="896"/>
+  <object id="34" name="wall" x="2240" y="1280" width="384" height="64"/>
+  <object id="35" name="wall" x="1728" y="1280" width="448" height="64"/>
+  <object id="36" name="wall" x="1728" y="1344" width="64" height="256"/>
+  <object id="37" name="wall" x="1792" y="1536" width="1152" height="64"/>
+  <object id="38" name="wall" x="3008" y="1536" width="192" height="64"/>
+  <object id="39" name="wall" x="2752" y="1600" width="64" height="256"/>
+  <object id="40" name="wall" x="2816" y="1792" width="384" height="64"/>
+  <object id="41" name="wall" x="2945.33" y="1752" width="61.3333" height="44"/>
+  <object id="42" name="wall" x="3033.33" y="1733.33" width="82.6667" height="42.6667"/>
+  <object id="43" name="wall" x="2944" y="1664" width="64" height="64"/>
+  <object id="44" name="wall" x="1344" y="640" width="64" height="64"/>
+  <object id="45" name="wall" x="1984" y="512" width="64" height="128"/>
+  <object id="46" name="wall" x="1792" y="448" width="64" height="64"/>
+  <object id="47" name="wall" x="1728" y="448" width="64" height="384"/>
+  <object id="48" name="wall" x="1792" y="704" width="64" height="64"/>
+  <object id="49" name="wall" x="2560" y="704" width="64" height="64"/>
+  <object id="50" name="wall" x="2112" y="768" width="64" height="192"/>
+  <object id="51" name="wall" x="2048" y="832" width="192" height="64"/>
+  <object id="53" name="wall" x="2496" y="1024" width="64" height="192"/>
+  <object id="54" name="wall" x="2560" y="960" width="64" height="256"/>
+  <object id="55" name="wall" x="2560" y="448" width="64" height="192"/>
+  <object id="56" name="wall" x="2048" y="640" width="256" height="64"/>
+  <object id="57" name="wall" x="2048" y="448" width="256" height="64"/>
+  <object id="58" name="wall" x="2304" y="512" width="64" height="128"/>
+  <object id="59" name="player" x="24" y="969.333" width="53.3333" height="54.6667"/>
+  <object id="60" name="zombie" x="1568" y="900" width="50.6667" height="48"/>
+  <object id="61" name="zombie" x="1568" y="1077.33" width="49.3333" height="53.3333"/>
+  <object id="62" name="coins" x="2118.67" y="1049.33" width="53.3333" height="48"/>
+  <object id="63" name="coins" x="1214.67" y="145.333" width="49.3333" height="46.6667"/>
+  <object id="64" name="coins" x="1490.67" y="272" width="61.3333" height="60"/>
+  <object id="65" name="coins" x="1485.33" y="65.3333" width="65.3333" height="60"/>
+  <object id="66" name="coins" x="3117.33" y="53.3333" width="49.3333" height="57.3333"/>
+  <object id="67" name="coins" x="3021.33" y="1616" width="40" height="36"/>
+  <object id="68" name="coins" x="2929.33" y="610.667" width="70.6667" height="57.3333"/>
+  <object id="69" name="coins" x="74.6667" y="36" width="66.6667" height="57.3333"/>
+  <object id="70" name="coins" x="2358.67" y="1636" width="54.6667" height="46.6667"/>
+  <object id="71" name="coins" x="2980" y="1136" width="65.3333" height="76"/>
+  <object id="72" name="big_zombie" x="1209.33" y="252" width="62.6667" height="48"/>
+  <object id="73" name="zombie" x="1684" y="105.333" width="62.6667" height="57.3333"/>
+  <object id="74" name="zombie" x="1682.67" y="240" width="64" height="62.6667"/>
+  <object id="75" name="machinegun" x="1893.33" y="600" width="52" height="56"/>
+  <object id="76" name="shotgun" x="2837.33" y="1610.67" width="50.6667" height="49.3333"/>
+  <object id="77" name="boss" x="2894.67" y="1338.67" width="74.6667" height="65.3333"/>
+  <object id="78" name="health" x="2749.33" y="493.333" width="54.6667" height="53.3333"/>
+  <object id="79" name="health" x="2080" y="26.6667" width="52" height="52"/>
+  <object id="80" name="big_zombie" x="2385.33" y="158.667" width="69.3333" height="70.6667"/>
+  <object id="81" name="zombie" x="2800" y="240" width="50.6667" height="46.6667"/>
+  <object id="82" name="zombie" x="2192" y="1412" width="49.3333" height="49.3333"/>
+  <object id="83" name="big_zombie" x="2757.33" y="1117.33" width="66.6667" height="70.6667"/>
+  <object id="84" name="wall" x="-64" y="0" width="64" height="1920"/>
+  <object id="85" name="wall" x="0" y="-64" width="3200" height="64"/>
+  <object id="86" name="wall" x="3200" y="0" width="64" height="1920"/>
+  <object id="87" name="wall" x="0" y="1920" width="3200" height="64"/>
+ </objectgroup>
 </map>
