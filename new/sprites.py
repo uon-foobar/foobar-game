@@ -67,7 +67,7 @@ class Player(pg.sprite.Sprite):
         if self.weapon == 'shotgun':
                 pg.mixer.Sound.play(pg.mixer.Sound('audio/shotgun.ogg'))
         if self.weapon == 'machinegun':
-                pg.mixer.Sound.play(pg.mixer.Sound('audio/pistol.ogg')) ### Richard
+                pg.mixer.Sound.play(pg.mixer.Sound('audio/machine_gun.wav'))
 
 
         now = pg.time.get_ticks()
@@ -98,6 +98,9 @@ class Player(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
+        
+        if pg.sprite.spritecollide(self, self.game.mobs, False, collided=None):
+            pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
 
     def add_health(self, amount):
         pg.mixer.Channel(5).play(pg.mixer.Sound('audio/health_powerup.ogg'))
@@ -150,7 +153,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.game.player.killcount += 1
-            pg.mixer.Sound.play(pg.mixer.Sound('audio/zombie_death.wav'))
+            pg.mixer.Channel(6).play(pg.mixer.Sound('audio/zombie_death.wav'))
             self.kill()
             self.game.map_img.blit(self.game.splat, self.pos - vec(32, 32))
 

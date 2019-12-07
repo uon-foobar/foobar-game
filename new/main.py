@@ -132,7 +132,8 @@ class Game:
         # game loop - set self.playing = False to end the game
         self.playing = True
         # edit for multiple game songs!
-        pg.mixer.music.load('audio/game_song1.mp3')
+        #main level song
+        pg.mixer.music.load(GAME_SONGS[CURRENTMAP])
         pg.mixer.music.play(-1)
 
         while self.playing:
@@ -152,6 +153,8 @@ class Game:
         self.camera.update(self.player)
         # player hits an item
         # we use false instead of true cause we dont want player to 'pick' up the health at 100hp
+        
+        
         hits = pg.sprite.spritecollide(self.player, self.items, False)
         for hit in hits:
             if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
@@ -162,7 +165,6 @@ class Game:
                     pg.mixer.Sound('audio/coin_collect.wav'))
                 hit.kill()
                 self.player.weapon = 'shotgun'
-
             if hit.type == 'machinegun':
                 pg.mixer.Channel(4).play(
                     pg.mixer.Sound('audio/coin_collect.wav'))
@@ -184,10 +186,6 @@ class Game:
 
         if hits:
             self.player.pos += vec(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
-
-        # Make punching noise if mob has come into contact with player
-        if pg.sprite.spritecollide(self.player, self.mobs, False, collided=None):
-            pg.mixer.Channel(3).play(pg.mixer.Sound('audio/punch.wav'))
 
         # bullets hit mobs
         # hits is a dict each key of dict a mob that got hit, list of bullets that hits the mob
@@ -235,6 +233,7 @@ class Game:
                              self.camera.apply_rect(wall.rect), 1)
 
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
+       
         # HUD functions
         draw_player_health(self.screen, 10, 10,
                            self.player.health / PLAYER_HEALTH)
@@ -296,9 +295,12 @@ class Game:
    
     def intro_screen(self):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
+        pg.mixer.music.load('audio/menu_song.mp3')
+        pg.mixer.music.play(-1)
         while True:
             infoScreen.blit(self.intro_img, (0,0))
             pg.display.flip()
+            
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
