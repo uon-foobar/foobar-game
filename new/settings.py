@@ -39,6 +39,7 @@ PISTOL_FIRED = 'audio/pistol.ogg'
 SHOTGUN_FIRED = 'audio/shotgun.ogg'
 MACHINEGUN_FIRED = 'audio/machine_gun.wav'
 MOB_PUNCH_SOUND = 'audio/punch.wav'
+GUN_PICKUP = 'audio/gun_pickup.wav'
 
 # Sound Channels - Different sounds must be on different channels if they are
 #to be played concurrently
