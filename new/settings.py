@@ -20,12 +20,18 @@ YELLOW = (255, 255, 0)
 TEXTGREY = [204,204,204]
 
 # Audio
+#Level Songs = list index+1 defines the song played in a loop on that level
 GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3',
-              'audio/level1.mp3', 'audio/level2.mp3']
+              'audio/level1.mp3', 'audio/level2.mp3',
+              'audio/level1.mp3']
+
+#MENU_SONG - Defines the song played on the menu screen
 MENU_SONG = 'audio/menu_song.mp3'
 
+
+#Sounds for collisions, gunfire etc.
 COIN_COLLECT = 'audio/coin_collect.wav'
 ZOMBIE_DEATH = 'audio/zombie_death.wav'
 HEALTH_POWERUP = 'audio/health_powerup.ogg'
@@ -34,7 +40,8 @@ SHOTGUN_FIRED = 'audio/shotgun.ogg'
 MACHINEGUN_FIRED = 'audio/machine_gun.wav'
 MOB_PUNCH_SOUND = 'audio/punch.wav'
 
-# Sound Channels
+# Sound Channels - Different sounds must be on different channels if they are
+#to be played concurrently
 ITEM_COLLECT_CHANNEL = 4
 MOB_PUNCH_CHANNEL = 3
 WEAPON_FIRE_CHANNEL = 7
@@ -124,7 +131,8 @@ ITEM_IMAGES = {'health': 'health_pack.png',
                'machinegun': 'machinegun.png', }
 HEALTH_PACK_AMOUNT = 20
 
-# Coins
+# Coins list - Contains a list of snapshots of a coin rotating
+#Iterated through by the coin class to showw a coin rotating
 COIN_IMAGE_LIST = [(pg.image.load("img/coin_animation/Coin1.png")),
                    (pg.image.load("img/coin_animation/Coin2.png")),
                    (pg.image.load("img/coin_animation/Coin3.png")),
