@@ -106,6 +106,8 @@ class Game:
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
         self.coins = pg.sprite.Group()
+        
+        #Loading of game objects from map file
         for tile_object in self.map.tmxdata.objects:
             obj_center = vec(tile_object.x + tile_object.width / 2,
                              tile_object.y + tile_object.height / 2)
@@ -131,8 +133,8 @@ class Game:
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
-        # edit for multiple game songs!
-        #main level song
+        
+        #Loads music for specific level from GAME_SONGS list
         pg.mixer.music.load(GAME_SONGS[CURRENTMAP])
         pg.mixer.music.play(-1)
 
@@ -151,26 +153,7 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
-        # player hits an item
-        # we use false instead of true cause we dont want player to 'pick' up the health at 100hp
         
-        
-        hits = pg.sprite.spritecollide(self.player, self.items, False)
-        for hit in hits:
-            if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
-                hit.kill()
-                self.player.add_health(HEALTH_PACK_AMOUNT)
-            if hit.type == 'shotgun':
-                pg.mixer.Channel(4).play(
-                    pg.mixer.Sound('audio/coin_collect.wav'))
-                hit.kill()
-                self.player.weapon = 'shotgun'
-            if hit.type == 'machinegun':
-                pg.mixer.Channel(4).play(
-                    pg.mixer.Sound('audio/coin_collect.wav'))
-                hit.kill()
-                self.player.weapon = 'machinegun'
-
         # mobs hit player and game ends on player death
         hits = pg.sprite.spritecollide(
             self.player, self.mobs, False, collide_hit_rect)
@@ -178,8 +161,6 @@ class Game:
             self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
-                pg.mixer.music.load('audio/death.ogg')
-                pg.mixer.music.play(0)
                 self.show_screen(DEAD, INFOPOS)
                 CURRENTMAP = 0
                 self.playing = False
@@ -195,10 +176,6 @@ class Game:
             hit.health -= WEAPONS[self.player.weapon]['damage'] * \
                 len(hits[hit])
             hit.vel = vec(0, 0)
-
-        # Event - Player picks up a coin
-        if pg.sprite.spritecollide(self.player, self.coins, True, collided=None):
-            self.player.collect_coins()
 
         if self.player.coin_count == NEXTLEVELCOINS:
             self.show_screen(NEWLEVEL, NEWLEVELPOS)
@@ -295,6 +272,8 @@ class Game:
    
     def intro_screen(self):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
+        
+        #Play menu song
         pg.mixer.music.load('audio/menu_song.mp3')
         pg.mixer.music.play(-1)
         while True:
