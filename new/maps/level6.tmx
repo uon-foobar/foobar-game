@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="104">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="119">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
- <layer id="1" name="ground" width="50" height="30">
+ <layer name="ground" width="50" height="30">
   <data encoding="csv">
 7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,7,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,
 7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,7,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,
@@ -37,7 +37,7 @@
 7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,8,7,7,7,8,7,8,7,8,7,8,5,6,3,4,3,4,3,4,3,4
 </data>
  </layer>
- <layer id="2" name="walls" width="50" height="30">
+ <layer name="walls" width="50" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,400,401,401,401,401,401,402,0,0,400,401,401,402,0,0,0,0,0,0,0,0,0,0,0,0,0,397,398,398,398,399,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,400,401,401,401,401,401,402,0,0,400,401,401,402,0,0,0,0,0,0,0,0,0,0,0,0,0,397,398,398,398,399,0,0,0,0,0,0,0,
@@ -71,7 +71,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,400,401,402,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="3" name="decorations" width="50" height="30">
+ <layer name="decorations" width="50" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,156,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,156,0,0,0,0,239,0,0,0,0,156,0,0,0,0,0,0,0,129,0,0,157,0,0,
@@ -105,7 +105,7 @@
 129,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,186,0
 </data>
  </layer>
- <objectgroup id="4" name="obstacles">
+ <objectgroup name="obstacles">
   <object id="1" name="wall" x="768" y="0" width="448" height="192"/>
   <object id="2" name="wall" x="1344" y="0" width="256" height="192"/>
   <object id="5" name="wall" x="0" y="128" width="640" height="64"/>
@@ -150,14 +150,6 @@
   <object id="51" name="wall" x="1920" y="192" width="64" height="64"/>
   <object id="52" name="wall" x="1809.33" y="266.667" width="32" height="32"/>
   <object id="53" name="wall" x="2304" y="64" width="64" height="64"/>
-  <object id="54" name="zombie" x="273.333" y="1681.33" width="37.3333" height="36"/>
-  <object id="55" name="zombie" x="528" y="1750.67" width="33.3333" height="32"/>
-  <object id="56" name="zombie" x="2461.33" y="1693.33" width="49.3333" height="45.3333"/>
-  <object id="57" name="zombie" x="2893.33" y="400" width="44" height="42.6667"/>
-  <object id="58" name="zombie" x="2962.67" y="1240" width="48" height="54.6667"/>
-  <object id="59" name="zombie" x="182.667" y="765.333" width="62.6667" height="62.6667"/>
-  <object id="60" name="zombie" x="994.667" y="796" width="66.6667" height="61.3333"/>
-  <object id="61" name="zombie" x="2097.33" y="88" width="76" height="57.3333"/>
   <object id="62" name="coins" x="182.667" y="396" width="37.3333" height="42.6667"/>
   <object id="63" name="coins" x="336" y="517.333" width="41.3333" height="49.3333"/>
   <object id="64" name="coins" x="188" y="612" width="49.3333" height="64"/>
@@ -167,32 +159,28 @@
   <object id="68" name="coins" x="1734.67" y="1414.67" width="53.3333" height="52"/>
   <object id="69" name="coins" x="221.333" y="1521.33" width="56" height="57.3333"/>
   <object id="70" name="coins" x="220" y="1807.33" width="44.6667" height="48.6667"/>
-  <object id="71" x="770.667" y="2138.67"/>
   <object id="72" name="player" x="1249.33" y="32" width="56" height="54.6667"/>
-  <object id="73" x="1244" y="2041.33"/>
-  <object id="74" name="boss" x="389.333" y="1524" width="56" height="50.6667"/>
-  <object id="75" name="big_zombie" x="290.667" y="290.667" width="70.6667" height="64"/>
   <object id="78" name="coins" x="391" y="71" width="45" height="37"/>
-  <object id="79" name="boss" x="2947" y="557" width="50" height="44"/>
-  <object id="80" name="boss" x="2850" y="774" width="60" height="58"/>
-  <object id="81" name="big_zombie" x="2388" y="1141" width="49" height="50"/>
-  <object id="82" name="zombie" x="1734" y="1305" width="47" height="47"/>
-  <object id="83" name="zombie" x="652" y="1545" width="41" height="53"/>
-  <object id="84" name="zombie" x="720" y="221" width="44" height="43"/>
-  <object id="85" name="zombie" x="870" y="227" width="54" height="42"/>
-  <object id="86" name="big_zombie" x="136" y="1117" width="55" height="42"/>
-  <object id="87" name="big_zombie" x="1456" y="1780" width="50" height="47"/>
-  <object id="90" x="-305.333" y="1057.33"/>
-  <object id="91" x="3556" y="1666.67"/>
   <object id="92" name="wall" x="0" y="192" width="64" height="896"/>
-  <object id="93" x="-348" y="1653.33"/>
   <object id="95" name="health" x="156.667" y="229.5" width="63" height="61"/>
   <object id="97" name="health" x="334.667" y="1765.33" width="50.6667" height="57.3333"/>
   <object id="98" name="health" x="2570.67" y="1257.33" width="46.6667" height="50.6667"/>
   <object id="99" name="health" x="2794.67" y="268" width="40" height="46.6667"/>
-  <object id="100" x="-437.333" y="272"/>
   <object id="101" name="shotgun" x="651.414" y="421.285" width="64.9558" height="64.9558"/>
   <object id="102" name="shotgun" x="2980.54" y="675.54" width="77.9469" height="76.0911"/>
   <object id="103" name="machinegun" x="2185.21" y="348.212" width="65.734" height="62.1808"/>
+  <object id="104" name="zombie" x="1014.67" y="838.667" width="60" height="60"/>
+  <object id="105" name="big_zombie" x="688" y="1596" width="77.3333" height="73.3333"/>
+  <object id="106" name="boss" x="2734.67" y="1018.67" width="76" height="77.3333"/>
+  <object id="108" name="zombie" x="2217.33" y="549.333" width="41.3333" height="38.6667"/>
+  <object id="110" name="zombie" x="330.667" y="636" width="48" height="57.3333"/>
+  <object id="111" name="big_zombie" x="332" y="266.667" width="61.3333" height="48"/>
+  <object id="112" name="zombie" x="2824" y="757.333" width="76" height="78.6667"/>
+  <object id="113" name="zombie" x="938.667" y="1741.33" width="45.3333" height="44"/>
+  <object id="114" name="zombie" x="3000" y="1140" width="54.6667" height="56"/>
+  <object id="115" name="zombie" x="760" y="1094.67" width="64" height="56"/>
+  <object id="116" name="zombie" x="2448" y="1012" width="72" height="65.3333"/>
+  <object id="117" name="zombie" x="1984" y="49.3333" width="50.6667" height="58.6667"/>
+  <object id="118" name="zombie" x="69.3333" y="28" width="57.3333" height="45.3333"/>
  </objectgroup>
 </map>
