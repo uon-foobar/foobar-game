@@ -244,7 +244,7 @@ class Game:
     def intro_screen(self, img, pos = (0,0), responsive = False, wait = False):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         # menu music
-        pg.mixer.music.load('audio/menu_song.mp3')
+        pg.mixer.music.load(MENU_SONG)
         pg.mixer.music.play(-1)
         while True:
             infoScreen.blit(img, (0,0))
