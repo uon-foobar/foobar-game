@@ -1,15 +1,14 @@
-
 import pygame as pg
 import sys
-import random
 from os import path
 from settings import *
 from sprites import *
 from tilemap import *
 
+
 # HUD functions
 
-
+# Draws the healthbar for the player
 def draw_player_health(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -27,10 +26,13 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, col, fill_rect)
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
-
-def display_counter(surf, x, y, count, img):
+#Draws the coins and zombies killed counters.
+def display_counter(surf, x, y, count, img, Zombie = False):
     font = pg.font.Font('freesansbold.ttf', 32)
-    text = font.render('{}'.format(count), True, WHITE)
+    if Zombie:
+        text = font.render('{}'.format(count), True, WHITE)
+    else:
+        text = font.render('{}/{}'.format(count,NEXTLEVELCOINS), True, WHITE)
     textRect = pg.Rect(x + 35, y, 35, 35)
     imgRect = pg.Rect(x, y, 35, 35)
     coinImg = pg.image.load(img)
@@ -40,8 +42,6 @@ def display_counter(surf, x, y, count, img):
 #/////////////////////////////////////////////////////////////////////////////
 
 # Game class: load_data, new, run, update, events, draw, draw_grid,
-
-
 class Game:
     def __init__(self, mapIndex=0):
         pg.init()
@@ -180,24 +180,25 @@ class Game:
         for hit in hits:
             hit.health -= WEAPONS[self.player.weapon]['damage'] * \
                 len(hits[hit])
-            hit.vel = vec(0, 0)      
+            hit.vel = vec(0, 0)   
+            
         # Enough Coins picked up to change level.
         if self.player.coin_count == NEXTLEVELCOINS:
             self.intro_screen(self.nextlevel_img, NEXTLEVELPOS, True)
             CURRENTMAP += 1
             self.playing = False
-
-    def draw_grid(self):
-        for x in range(0, WIDTH, TILESIZE):
-            pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
-        for y in range(0, HEIGHT, TILESIZE):
-            pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
-
+############
+   # def draw_grid(self):
+    #    for x in range(0, WIDTH, TILESIZE):
+     #       pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
+      #  for y in range(0, HEIGHT, TILESIZE):
+       #     pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
+############
+       
+    # 
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
-        # self.screen.fill(BGCOLOR)
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
-        # self.draw_grid()
         for sprite in self.all_sprites:
             if isinstance(sprite, Mob):
                 sprite.draw_health()
@@ -221,8 +222,8 @@ class Game:
                            self.player.health / PLAYER_HEALTH)
         display_counter(self.screen, 130, 5, self.player.coin_count,
                         "img/coin_animation/Coin1.png")
-        display_counter(self.screen, 200, 5,
-                        self.player.killcount, "img/zombie_kill.png")
+        display_counter(self.screen, 235, 5,
+                        self.player.killcount, "img/zombie_kill.png", True)
         pg.display.flip()
 
     def events(self):
@@ -271,7 +272,6 @@ class Game:
                 if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.quit()
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
-                    #intro = False
                     return
 
 

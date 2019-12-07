@@ -1,16 +1,20 @@
 import pygame as pg
 vec = pg.math.Vector2
 
+# Basic Tile info
+TITLE = "Foobar"
+TILESIZE = 64
+WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
+HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
+GRIDWIDTH = WIDTH / TILESIZE
+GRIDHEIGHT = HEIGHT / TILESIZE
+FPS = 60
+NEXTLEVELCOINS = 5 # This is the number of coins you need to collect to move to the next level.
+
 # define some colors (R, G, B)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-DARKGREY = (40, 40, 40)
-LIGHTGREY = (100, 100, 100)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
-BROWN = (106, 55, 5)
-CYAN = (0, 255, 255)
 TEXTGREY = [204,204,204]
 
 # Audio
@@ -18,27 +22,11 @@ GAME_SONGS = ['audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3',
               'audio/level1.mp3', 'audio/level2.mp3']
-
 COIN_COLLECT = 'audio/coin_collect.wav'
 
-# game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
-FPS = 60
-TITLE = "Foobar"
-BGCOLOR = BROWN
-
-MAPS = ['level1.tmx', 'level2.tmx', 'level3.tmx', 'level4.tmx',
+# Map list, can re-order them
+MAPS = ['level4.tmx', 'level1.tmx', 'level2.tmx', 'level3.tmx', #add 'level9.tmx'
         'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
-NEXTLEVELCOINS = 1
-
-
-
-TILESIZE = 64
-GRIDWIDTH = WIDTH / TILESIZE
-GRIDHEIGHT = HEIGHT / TILESIZE
-
-WALL_IMG = 'tileGreen_39.png'
 
 # Load screen messages
 INTRO_IMG = 'intro.png'
@@ -46,18 +34,17 @@ DEATH_IMG = 'dead.png'
 LEVEL_IMG = 'level.png'
 NEXTLEVEL_IMG = 'nextlevel.png'
 ENDGAME_IMG = 'endgame.png'
-
-#INFOPOS = (50, 50)
+# the two positions for the responsive printing to the screen for the menus.
 NEXTLEVELPOS = (680,205)
 LEVELPOS = (585,295)
 
 # Player settings
 PLAYER_HEALTH = 100
 PLAYER_SPEED = 280
-PLAYER_ROT_SPEED = 200
-PLAYER_IMG = 'manBlue_gun.png'
-PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
-BARREL_OFFSET = vec(30, 10)
+PLAYER_ROT_SPEED = 200 # rotation speed of the player as he moves
+PLAYER_IMG = 'manBlue_gun.png' 
+PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35) # hitbox
+BARREL_OFFSET = vec(30, 10) # position of the gun barrel on the player image
 
 # Gun settings
 BULLET_IMG = 'bullet.png'
@@ -87,11 +74,11 @@ WEAPONS['machinegun'] = {'bullet_speed': 500,
                          'damage': 10,
                          'bullet_size': 'rd',
                          'bullet_count': 1}
-BULLET_SPEED = 500
-BULLET_LIFETIME = 1000
-BULLET_RATE = 150
-KICKBACK = 100
-GUN_SPREAD = 5
+BULLET_SPEED = 500 
+BULLET_LIFETIME = 1000 # bullet lasts for 1 second
+BULLET_RATE = 150 # how fast it shoots
+KICKBACK = 100 # how far the player is pushed back
+GUN_SPREAD = 5 # how much angle the bullet spreads from the barrel
 BULLET_DAMAGE = 10
 
 # Mob settings
@@ -99,7 +86,8 @@ MOB_IMG = 'zombie1_hold.png'
 MOB_SPEED = 150
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 SPLAT = 'splat red.png'
-ATTACK_RADIUS = 300
+ATTACK_RADIUS = 450
+
 # Zombie
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
