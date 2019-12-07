@@ -25,7 +25,7 @@ def collide_with_walls(sprite, group, dir):
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
 
-
+#Main player class, has attributes such as player image,player health,player hitbox,player position and velocity,starting coins,kills and weapon.
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -45,6 +45,7 @@ class Player(pg.sprite.Sprite):
         self.killcount = 0
         self.weapon = 'pistol'
 
+#Function that changes the player movement and the shooting according to the key presses.
     def get_keys(self):
         self.rot_speed = 0
         self.vel = vec(0, 0)
@@ -76,18 +77,22 @@ class Player(pg.sprite.Sprite):
         
         
         now = pg.time.get_ticks()
+        #Defines the rate of fire of the weapon held by the player
         if now - self.last_shot > WEAPONS[self.weapon]['rate']:
             self.last_shot = now
             dir = vec(1, 0).rotate(-self.rot)
+        #Changing the position of bullets so they dont fire from the centre of the player, instead from the gun
             pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
+        #How much the player moves back upon shooting the gun
             self.vel = vec(-WEAPONS[self.weapon]
                            ['kickback'], 0).rotate(-self.rot)
+        #How the bullet behaves, does it spread in all directions or shoots in one line
             for i in range(WEAPONS[self.weapon]['bullet_count']):
                 spread = uniform(-WEAPONS[self.weapon]
                                  ['spread'], WEAPONS[self.weapon]['spread'])
                 Bullet(self.game, pos, dir.rotate(spread))
 
-
+    #Function that rotates the static image on the player acording to the player movement,checks for collisions with walls and mobs
     def update(self):
         self.get_keys()
         self.rot = (self.rot + self.rot_speed * self.game.dt) % 360
@@ -104,13 +109,13 @@ class Player(pg.sprite.Sprite):
             pg.mixer.Channel(MOB_PUNCH_CHANNEL).play(pg.mixer.Sound(MOB_PUNCH_SOUND))
         self.item_pickup()
         
-
+    #Function that adds health to player, used by the health kit item, if player health is full player doesnt pick it up
     def add_health(self, amount):
         pg.mixer.Channel(5).play(pg.mixer.Sound(HEALTH_POWERUP))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
-            
+    #Function for picking up the item if the item loc and player loc is same it is picked up by the player and kills the sprite        
     def item_pickup(self):
         hits = pg.sprite.spritecollide(self, self.game.items, False)
         for hit in hits:
@@ -133,7 +138,7 @@ class Player(pg.sprite.Sprite):
             self.coin_count += 1
         
 
-
+#Main mob class, contains attributes for type of mob,hitbox,position,velocity,health
 class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs
@@ -154,13 +159,17 @@ class Mob(pg.sprite.Sprite):
         self.acc = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
+        #Uses this to check the location of player on the map
         self.target = game.player
         self.health = self.HEALTH
 
     def update(self):
+        #Determines the distance of the mob from the player
         target_distance = self.target.pos - self.pos
+        #Checks if the player is in its 'Attack Radius', if yes then the mob charges towards the player using player's location
         if target_distance.length_squared() < ATTACK_RADIUS**2:
             self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+            #Gets the images according to mob type
             if self.TYPE == 1:
                 self.image = pg.transform.rotate(self.game.mob_img, self.rot)
             if self.TYPE == 2:
@@ -178,12 +187,14 @@ class Mob(pg.sprite.Sprite):
             self.hit_rect.centery = self.pos.y
             collide_with_walls(self, self.game.walls, 'y')
             self.rect.center = self.hit_rect.center
+        #How mob dies and the sprite is deleted and killcount increases
         if self.health <= 0:
             self.game.player.killcount += 1
             pg.mixer.Sound.play(pg.mixer.Sound(ZOMBIE_DEATH))
             self.kill()
+            #Blood spatter effect on mob death
             self.game.map_img.blit(self.game.splat, self.pos - vec(32, 32))
-
+    #Draws the health of the zombie on the screen above the zombie, changes health bar colour according to health        
     def draw_health(self):
         if self.health > 60:
             col = GREEN
@@ -214,7 +225,7 @@ class Boss(Mob):
     HEALTH = MOB_HEALTH3
     SPEED = MOB_SPEED3
 
-
+#Class for the bullet sprites,img location,pos,velocity,and the spawn time
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):
         self.groups = game.all_sprites, game.bullets
@@ -229,7 +240,7 @@ class Bullet(pg.sprite.Sprite):
         #spread = uniform(-GUN_SPREAD, GUN_SPREAD)
         self.vel = dir * WEAPONS[game.player.weapon]['bullet_speed']
         self.spawn_time = pg.time.get_ticks()
-
+#Bullet sprite dies if it collides with the wall or bullet lifetime is over
     def update(self):
         self.pos += self.vel * self.game.dt
         self.rect.center = self.pos
@@ -237,7 +248,7 @@ class Bullet(pg.sprite.Sprite):
             self.kill()
         if pg.time.get_ticks() - self.spawn_time > WEAPONS[self.game.player.weapon]['bullet_lifetime']:
             self.kill()
-
+#Class for the walls,and other obstacles, defines where the obstacles are
 class Obstacle(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
         self.groups = game.walls
@@ -250,9 +261,9 @@ class Obstacle(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-# Item Sprites - using for health, and maybe guns
 
 
+# Item Sprites - Used for guns and health,their position,img,type etc
 class Item(pg.sprite.Sprite):
     # type - healthpack , guns etc
     def __init__(self, game, pos, type):
