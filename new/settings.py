@@ -47,8 +47,8 @@ MOB_PUNCH_CHANNEL = 3
 WEAPON_FIRE_CHANNEL = 7
 
 # Map list, can re-order them
-MAPS = ['level4.tmx', 'level1.tmx', 'level2.tmx', 'level3.tmx', 'level9.tmx',
-        'level5.tmx', 'level6.tmx', 'level7.tmx', 'level8.tmx']
+MAPS = ['level4.tmx', 'level6.tmx', 'level2.tmx', 'level3.tmx', 'level9.tmx',
+        'level5.tmx', 'level1.tmx', 'level7.tmx', 'level8.tmx']
 
 # Load screen messages
 INTRO_IMG = 'intro.png'
