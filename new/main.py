@@ -148,8 +148,10 @@ class Game:
         # game loop - set self.playing = False to end the game
         self.playing = True
 
-        # Loads music for specific level from GAME_SONGS list
+        # Loads level music from GAME_SONGS list
+        # Stops playback of any previous songs playing
         pg.mixer.music.load(GAME_SONGS[CURRENTMAP])
+        #Starts playback of the loaded music on a loop
         pg.mixer.music.play(-1)
 
         # The main calls for a game instance: get events, update, draw to the screen.
@@ -236,7 +238,9 @@ class Game:
     def intro_screen(self, img, pos=(0, 0), responsive=False, wait=False):
         infoScreen = pg.display.set_mode((WIDTH, HEIGHT))
         # menu music
+        #Loads the menu song object
         pg.mixer.music.load(MENU_SONG)
+        #Starts playback of menu song on a loop
         pg.mixer.music.play(-1)
         while True:
             infoScreen.blit(img, (0, 0))

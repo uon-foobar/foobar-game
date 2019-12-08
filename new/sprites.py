@@ -5,6 +5,7 @@ from tilemap import collide_hit_rect
 vec = pg.math.Vector2
 
 
+#uses pygame sprite collide method to stop player walking through walls
 def collide_with_walls(sprite, group, dir):
     if dir == 'x':
         hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
@@ -63,7 +64,7 @@ class Player(pg.sprite.Sprite):
 
     def shoot(self):
         #Generates a sound for a particular gun when shooting
-        #All are fired on their own channel 
+        #All weapons are fired on an exclusive channel 
         if self.weapon == 'pistol':
             pg.mixer.Channel(WEAPON_FIRE_CHANNEL).play(pg.mixer.Sound(PISTOL_FIRED))
         if self.weapon == 'shotgun':
@@ -112,16 +113,18 @@ class Player(pg.sprite.Sprite):
         
     #Function that adds health to player, used by the health kit item, if player health is full player doesnt pick it up
     def add_health(self, amount):
-        pg.mixer.Channel(5).play(pg.mixer.Sound(HEALTH_POWERUP))
         self.health += amount
         if self.health > PLAYER_HEALTH:
             self.health = PLAYER_HEALTH
-    #Function for picking up the item if the item loc and player loc is same it is picked up by the player and kills the sprite        
+            
+    #Function for picking up the item if the item loc and player loc is same it is picked up by the player and kills the sprite   
+    #Specific item pickup sound is played on the exclusive item pickup channel     
     def item_pickup(self):
         hits = pg.sprite.spritecollide(self, self.game.items, False)
         for hit in hits:
             if hit.type == 'health' and self.health < PLAYER_HEALTH:
                 hit.kill()
+                pg.mixer.Channel(ITEM_COLLECT_CHANNEL).play(pg.mixer.Sound(HEALTH_POWERUP))
                 self.add_health(HEALTH_PACK_AMOUNT)
             if hit.type == 'shotgun':
                 pg.mixer.Channel(ITEM_COLLECT_CHANNEL).play(
@@ -278,21 +281,29 @@ class Item(pg.sprite.Sprite):
         self.pos = pos
 
 
+
+# This class generates animate coins that spin
 class coins(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.coins
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-
+        #Initialise coin to first image in list of coin images used
+        #for the animation
         self.index = 0
         self.image = COIN_IMAGE_LIST[self.index]
+        #Defines position and dimensions of the sprite rect, used for interaction
+        #with other sprites
         self.rect = self.image.get_rect()
         self.pos = vec(x, y)
         self.rect.center = self.pos
 
     def update(self):
+        #Increments the image
         self.index += 1
+        #Restarts the loop when the COIN_IMAGE_LIST index is out of range
         if self.index >= len(COIN_IMAGE_LIST):
 
             self.index = 0
+        #sprite image is updated to the next image in the list  
         self.image = COIN_IMAGE_LIST[self.index]

@@ -26,7 +26,7 @@ GAME_SONGS = ['audio/level1.wav', 'audio/level2.wav',
               'audio/level7.wav', 'audio/level8.wav',
               'audio/level9.wav']
 
-# MENU_SONG - Defines the song played on the menu screen
+# MENU_SONG - Defines the song played on the menu screen in a loop
 MENU_SONG = 'audio/menu_song.mp3'
 
 
