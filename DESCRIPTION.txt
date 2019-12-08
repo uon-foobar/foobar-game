@@ -1,0 +1,68 @@
+COMP4008 Group Project 2019-20
+
+Escape!
+by foobar group.
+
+Game Description:
+
+Escape! is a zombie shooter game where your goal is to kill zombies and collect coins. Once you've collected enough coins you will move to the next level.
+There are healthpacks and upgraded guns available to pick up around the map. You start each level with 100 health displayed in the top left corner of the screen.
+If zombies hit you then your health decreases, if your health reaches zero you will die and have to start again from level 1. The number of coins you have
+collected, and the number needed to progress, are also displayed at the top of the screen. As is the number of zombies you have killed on this level.
+
+There are three types of zombies in the game:
+- Regular zombiess are brown, they have medium speed and health. 
+- Big zombies are red, they are slow but have high health.
+- Boss zombies are pink and are extremely fast and have high health.
+
+There are also three types of weapons:
+- pistol: this is the starting gun, it is slow but can kill regular zombies easily
+- shotgun: this is best for large groups of zombies, it has a large spread of multiple bullets, but short range.
+- machinegun: this fires quickly, and is best for long range shooting against single boss zombies.
+
+
+Making the game:
+
+Inspiration:
+
+As a group we decided we wanted to make a top-down dungeon crawler game with shooting mechanics. Due to constraints on available art assets and spritesheets,
+we changed this idea to a cartoon style zombie shooter as those were the most complete asset packs available on kenney.nl. We also tried to change some of 
+the assets slightly by editing them in photoshop to provide a little more variation.
+
+Technologies:
+
+We used git and github to track and update the source code for this project and slack for communication. Some of our group members were new to git and this 
+caused some problems at different points in the project but ultimately was useful. 
+
+In addition to using pygame we also implemented another python library pytmx. This was in order to create large and detailed maps efficiently and be able to “load” 
+them in pygame. This is the only section of code not explicitly written by us as the function TiledMap is a pytmx derived template function.
+
+As mentioned above, we used a free software called Tiled to produce our maps using tilesheets. This software’s simple drag and drop interface is the reason we have 
+multiple levels in our game as creating the maps manually would be incredibly slow.
+
+We also used the vector2 library included in pygame.math, this was useful to simplify the vector calculations needed for 2D game physics and shooting.
+The Camera class is also inspired from some code found on stackexchange and github.
+
+Approach:
+
+We used OOP design principles to create our game and have classes and methods for the Game itself, Player, different Mobs, Bullets, and Obstacles that make up the 
+interactive environment. Classes like the Mob can be easily extensible, and using methods to call actions on an instance of a Game is a flexible way to create new Game 
+instances with different levels.
+
+Our game has multiple files to separate concerns and make it easier to tweak game settings in the settings.py file. sprites.py contains the object classes for all the 
+elements of the game, whereas tilemap.py contains the functions used to generate pygame maps from the Tiled .tmx file format.
+
+Finally, we have separate folders containing the assets for the game. Separating audio, images, and maps into separate folders and also including sub folders when 
+necessary (e.g. coins_animation). 
+
+Resources:
+Pygame – https://www.pygame.org/docs/
+Pytmx - https://pypi.org/project/PyTMX/
+Tiled – https://www.mapeditor.org/
+Kenney Tilesheets – https://www.kenney.nl/assets/topdown-shooter
+Music –  https://www.playonloop.com/royalty-free-music/retro-video-game/
+Sounds - https://www.audioblocks.com/
+
+
+
+
